@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using BFParser.DebugTools;
 using BFParser.Rules;
+using BFParser.Rules.DebugTools;
 
 namespace BFParser
 {
@@ -103,6 +105,11 @@ namespace BFParser
             {
                 rule.Value.InitGrammar(this);
             }
+        }
+
+        public void Visit(CoreGrammarVisitor<ConvertToDOTVisitor> visitor)
+        {
+            visitor.Apply(this);
         }
     }
 }

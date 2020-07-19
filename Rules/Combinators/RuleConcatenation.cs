@@ -34,5 +34,13 @@ namespace BFParser.Rules.Combinators
             var parsedText = secondResult.Rest != string.Empty ? text.Replace(secondResult.Rest, "") : text;
             return new SyntaxTreeNode(parsedText, secondResult.Rest, children);
         }
+
+        public override Grammar Grammar { get; protected set; }
+        public override void InitGrammar(Grammar grammar)
+        {
+            Grammar = grammar;
+            FirstRule.InitGrammar(grammar);
+            SecondRule.InitGrammar(grammar);
+        }
     }
 }

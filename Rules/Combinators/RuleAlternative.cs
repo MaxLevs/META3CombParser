@@ -16,5 +16,13 @@ namespace BFParser.Rules.Combinators
             var pResult = FirstRule.Parse(text) ?? SecondRule.Parse(text);
             return pResult;
         }
+
+        public override Grammar Grammar { get; protected set; }
+        public override void InitGrammar(Grammar grammar)
+        {
+            Grammar = grammar;
+            FirstRule.InitGrammar(grammar);
+            SecondRule.InitGrammar(grammar);
+        }
     }
 }

@@ -43,5 +43,12 @@ namespace BFParser.Rules.Combinators
                 text;
             return new SyntaxTreeNode(parsedText, pResults[^1].Rest, pResults);
         }
+
+        public override Grammar Grammar { get; protected set; }
+        public override void InitGrammar(Grammar grammar)
+        {
+            Grammar = grammar;
+            InternalRule.InitGrammar(grammar);
+        }
     }
 }

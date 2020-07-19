@@ -21,5 +21,11 @@ namespace BFParser.Rules
             var rest = pResult.Groups["Rest"].Value;
             return (pResult.Success) ? new SyntaxTreeNode(token, rest, null) : null;
         }
+
+        public override Grammar Grammar { get; protected set; }
+        public override void InitGrammar(Grammar grammar)
+        {
+            Grammar = grammar;
+        }
     }
 }

@@ -16,5 +16,12 @@ namespace BFParser.Rules.Combinators
             var pResult = InternalRule.Parse(text);
             return pResult ?? new SyntaxTreeNode(DefaultValue, text, null);
         }
+
+        public override Grammar Grammar { get; protected set; }
+        public override void InitGrammar(Grammar grammar)
+        {
+            Grammar = grammar;
+            InternalRule.InitGrammar(grammar);
+        }
     }
 }

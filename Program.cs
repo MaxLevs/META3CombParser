@@ -11,7 +11,7 @@ namespace BFParser
             Grammar gramm = new Grammar
             {
                 {"basicOperations", R.T("+") | R.T("-") | R.T(">") | R.T("<")},
-                {"loop", R.T("[") + R.C("basicOperations") + R.T("]")},
+                {"loop", R.T("[") + R.C("sourceItem") + R.T("]")},
                 {"sourceItem", R.S(R.C("basicOperations") | R.C("loop"), 0, int.MaxValue)}
             };
             

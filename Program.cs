@@ -8,15 +8,15 @@ namespace BFParser
     {
         static void Main(string[] args)
         {
-            CoreRule ruleLogin = new RuleToken("login");
-            CoreRule ruleMaxlevs = new RuleToken("maxlevs");
-            CoreRule rulePasswd = new RuleToken("passwd");
-            CoreRule ruleKektus = new RuleToken("kektus");
-
-            CoreRule ruleComplex = ruleLogin + new RuleOptional(ruleMaxlevs) | rulePasswd + ruleKektus ;
-            CoreRule rule = new RuleSerial(ruleComplex, 1, 3);
+            Grammar gramm = new Grammar
+            {
+                {"basicOperations", R.T("+") | R.T("-") | R.T(">") | R.T("<")},
+                {"loop", R.T("[") + R.C("basicOperations") + R.T("]")},
+                {"sourceItem", R.S(R.C("basicOperations") | R.C("loop"), 0, int.MaxValue)}
+            };
             
-            var node = rule.Parse(" login maxlevs passwd kektus dlogind maxlevs ");
+            
+            var node = gramm["sourceItem"].Parse("++++++[->+++>+<<]");
             
             PrintR(node);
         }

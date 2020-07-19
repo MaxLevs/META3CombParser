@@ -4,12 +4,12 @@ namespace BFParser.Rules
 {
     public class RuleReg : CoreRule
     {
-        public string Name { get; }
+        public string ExprBase { get; }
         public Regex RExp { get; }
 
         public RuleReg(string rule)
         {
-            Name = $"Rule-[{rule}]";
+            ExprBase = $"Rule-[{rule}]";
             RExp = new Regex(@$"^(\s+)*(?<ParsedText>{rule})(?<Rest>.+)*"); // Токен в начале строки, остаток в отдельной группе 
         }
 

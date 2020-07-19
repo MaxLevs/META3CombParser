@@ -12,9 +12,9 @@ namespace BFParser
             CoreRule ruleMaxlevs = new RuleToken("maxlevs");
             CoreRule rulePasswd = new RuleToken("passwd");
             CoreRule ruleKektus = new RuleToken("kektus");
-            
-            CoreRule rule = new RuleConcatenation(ruleLogin, ruleMaxlevs);
-            var node = rule.Parse(" login maxlevs passwd kektus");
+
+            CoreRule rule = ruleLogin + ruleMaxlevs | rulePasswd + ruleKektus ;
+            var node = rule.Parse(" passwd kektus");
             
             PrintR(node);
         }
@@ -30,7 +30,13 @@ namespace BFParser
             Console.WriteLine(node.Id);
             Console.WriteLine(node.ParsedText);
             Console.WriteLine(node.Rest);
-            Console.WriteLine(node.Children);
+
+            if (node.Children is null) return;
+            foreach (var child in node.Children)
+            {
+                Console.WriteLine();
+                PrintR(child);
+            }
         }
     }
 }

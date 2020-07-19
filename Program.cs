@@ -12,7 +12,7 @@ namespace BFParser
             {
                 {"basicOperations", R.T("+") | R.T("-") | R.T(">") | R.T("<")},
                 {"loop", R.T("[") + R.C("sourceItem") + R.T("]")},
-                {"sourceItem", R.S(R.C("basicOperations") | R.C("loop"), 0, int.MaxValue)}
+                {"sourceItem", R.ZI(R.C("basicOperations") | R.C("loop"))}
             };
             gramm.InitGrammar();
             

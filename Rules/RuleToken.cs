@@ -20,7 +20,7 @@ namespace BFParser.Rules
             {
                 return null;
             }
-            var rest = text.Substring(Token.Length, text.Length);
+            var rest = text.Substring(0, Token.Length);
             return new SyntaxTreeNode(Token, rest, null);
         }
 

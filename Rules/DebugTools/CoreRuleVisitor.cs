@@ -15,7 +15,7 @@ namespace BFParser.Rules.DebugTools
         public abstract void Apply(RuleCallGrammarRule rule);
 
 
-        internal class VisitorNode
+        public class VisitorNode
         {
             public Guid Id { get; }
             public string Token { get; }
@@ -27,7 +27,7 @@ namespace BFParser.Rules.DebugTools
             }
         }
 
-        internal class VisitorLink
+        public class VisitorLink
         {
             public Guid Id { get; }
             public VisitorNode SourceNode { get; }
@@ -73,9 +73,9 @@ namespace BFParser.Rules.DebugTools
             return link;
         }
         
-        private List<VisitorNode> _nodes;
-        private List<VisitorLink> _links;
-        private Stack<Guid> _ids;
+        protected List<VisitorNode> _nodes;
+        protected List<VisitorLink> _links;
+        protected Stack<Guid> _ids;
 
-    };
+    }
 }

@@ -5,6 +5,11 @@ namespace BFParser.Rules.Combinators
 {
     public class RuleCallGrammarRule : CoreRule
     {
+        public RuleCallGrammarRule(string grammarRuleName)
+        {
+            GrammarRuleName = grammarRuleName;
+        }
+
         public string GrammarRuleName { get; }
         public CoreRule InternalRule { get; private set; }
         
@@ -20,7 +25,7 @@ namespace BFParser.Rules.Combinators
         public override void InitGrammar(Grammar grammar)
         {
             Grammar = grammar;
-            // InternalRule = Grammar[GrammarRuleName];
+            InternalRule = Grammar[GrammarRuleName];
         }
     }
 }

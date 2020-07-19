@@ -10,6 +10,7 @@ namespace BFParser.Rules
         public RuleToken(string token)
         {
             Name = token;
+            //TODO: There is a problem: if token is "login" and text is "loginsomethingelse" than result is "login" and rest is "somethingelse"
             RExp = new Regex(@$"^(\s+)*(?<Token>{token})(?<Rest>.+)*"); // Токен в начале строки, остаток в отдельной группе 
         }
 

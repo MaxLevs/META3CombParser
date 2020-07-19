@@ -31,7 +31,9 @@ namespace BFParser.Rules.Combinators
             }
 
             var children = new List<SyntaxTreeNode>{firstResult, secondResult};
-            var parsedText = secondResult.Rest != string.Empty ? text.Replace(secondResult.Rest, "") : text;
+            var parsedText = secondResult.Rest != string.Empty ? 
+                text.Replace(secondResult.Rest, "") : 
+                text;
             return new SyntaxTreeNode(parsedText, secondResult.Rest, children);
         }
 

@@ -13,8 +13,8 @@ namespace BFParser
             CoreRule rulePasswd = new RuleToken("passwd");
             CoreRule ruleKektus = new RuleToken("kektus");
 
-            CoreRule rule = ruleLogin + ruleMaxlevs | rulePasswd + ruleKektus ;
-            var node = rule.Parse(" passwd kektus");
+            CoreRule rule = ruleLogin + new RuleOptional(ruleMaxlevs) | rulePasswd + ruleKektus ;
+            var node = rule.Parse(" login maxlevz passwd kektus");
             
             PrintR(node);
         }

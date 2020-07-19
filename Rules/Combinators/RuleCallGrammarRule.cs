@@ -17,8 +17,8 @@ namespace BFParser.Rules.Combinators
         {
             if (InternalRule == null)
                 throw new NoNullAllowedException($"It must call {nameof(InitGrammar)} before parsing");
-            
-            throw new NotImplementedException();
+
+            return InternalRule.Parse(text);
         }
 
         public override Grammar Grammar { get; protected set; }

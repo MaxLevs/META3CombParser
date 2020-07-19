@@ -1,6 +1,8 @@
 ﻿using System;
+using BFParser.DebugTools;
 using BFParser.Rules;
 using BFParser.Rules.Combinators;
+using BFParser.Rules.DebugTools;
 
 namespace BFParser
 {
@@ -16,6 +18,9 @@ namespace BFParser
             };
             gramm.InitGrammar();
             
+            var visitor = new CoreGrammarVisitor<ConvertToDOTVisitor>();
+            gramm.Visit(visitor);
+
             var node = gramm["sourceItem"].Parse("++++++[->+++>+<<]");
             
             PrintR(node);

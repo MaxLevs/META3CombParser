@@ -30,12 +30,9 @@ namespace BFParser.Rules.Combinators
                 return null;
             }
 
-            else
-            {
-                var children = new List<SyntaxTreeNode>{firstResult, secondResult};
-                var parsedText = secondResult.Rest != string.Empty ? text.Replace(secondResult.Rest, "") : text;
-                return new SyntaxTreeNode(parsedText, secondResult.Rest, children);
-            }
+            var children = new List<SyntaxTreeNode>{firstResult, secondResult};
+            var parsedText = secondResult.Rest != string.Empty ? text.Replace(secondResult.Rest, "") : text;
+            return new SyntaxTreeNode(parsedText, secondResult.Rest, children);
         }
     }
 }

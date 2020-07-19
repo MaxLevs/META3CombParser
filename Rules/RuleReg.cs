@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using BFParser.Rules.DebugTools;
 
 namespace BFParser.Rules
 {
@@ -25,6 +26,11 @@ namespace BFParser.Rules
         public override void InitGrammar(Grammar grammar)
         {
             Grammar = grammar;
+        }
+        
+        public override void Visit(ParserVisitor visitor)
+        {
+            visitor.Apply(this);
         }
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Data;
+using BFParser.Rules.DebugTools;
 
 namespace BFParser.Rules.Combinators
 {
@@ -26,6 +27,11 @@ namespace BFParser.Rules.Combinators
         {
             Grammar = grammar;
             InternalRule = Grammar[GrammarRuleName];
+        }
+        
+        public override void Visit(ParserVisitor visitor)
+        {
+            visitor.Apply(this);
         }
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using BFParser.Rules.DebugTools;
 
 namespace BFParser.Rules.Combinators
 {
@@ -43,6 +44,11 @@ namespace BFParser.Rules.Combinators
             Grammar = grammar;
             FirstRule.InitGrammar(grammar);
             SecondRule.InitGrammar(grammar);
+        }
+        
+        public override void Visit(ParserVisitor visitor)
+        {
+            visitor.Apply(this);
         }
     }
 }

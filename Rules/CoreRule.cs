@@ -1,4 +1,5 @@
 using BFParser.Rules.Combinators;
+using BFParser.Rules.DebugTools;
 using Microsoft.VisualBasic.CompilerServices;
 
 namespace BFParser.Rules
@@ -18,6 +19,8 @@ namespace BFParser.Rules
         {
             return new RuleAlternative(firstRule, secondRule);
         }
+
+        public abstract void Visit(ParserVisitor visitor);
     }
 
     public static class R

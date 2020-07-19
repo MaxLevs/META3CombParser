@@ -1,3 +1,5 @@
+using BFParser.Rules.DebugTools;
+
 namespace BFParser.Rules.Combinators
 {
     public class RuleAlternative : CoreRule
@@ -23,6 +25,10 @@ namespace BFParser.Rules.Combinators
             Grammar = grammar;
             FirstRule.InitGrammar(grammar);
             SecondRule.InitGrammar(grammar);
+        }
+        public override void Visit(ParserVisitor visitor)
+        {
+            visitor.Apply(this);
         }
     }
 }

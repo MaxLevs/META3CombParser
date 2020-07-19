@@ -96,5 +96,13 @@ namespace BFParser
 
         public ICollection<string> Keys => _rules.Keys;
         public ICollection<CoreRule> Values => _rules.Values;
+
+        public void InitGrammar()
+        {
+            foreach (var rule in _rules)
+            {
+                rule.Value.InitGrammar(this);
+            }
+        }
     }
 }

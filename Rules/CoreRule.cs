@@ -20,7 +20,7 @@ namespace BFParser.Rules
             return new RuleAlternative(firstRule, secondRule);
         }
 
-        public abstract void Visit(ParserVisitor visitor);
+        public abstract void Visit(CoreRuleVisitor visitor);
     }
 
     public static class R

@@ -52,7 +52,7 @@ namespace BFParser.Rules.Combinators
             InternalRule.InitGrammar(grammar);
         }
         
-        public override void Visit(ParserVisitor visitor)
+        public override void Visit(CoreRuleVisitor visitor)
         {
             visitor.Apply(this);
         }

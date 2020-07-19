@@ -4,7 +4,7 @@ using BFParser.Rules.Combinators;
 
 namespace BFParser.Rules.DebugTools
 {
-    public abstract class ParserVisitor
+    public abstract class CoreRuleVisitor
     {
         public abstract void Apply(RuleToken rule);
         public abstract void Apply(RuleReg rule);

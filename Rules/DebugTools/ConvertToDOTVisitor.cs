@@ -5,16 +5,13 @@ using BFParser.Rules.Combinators;
 
 namespace BFParser.Rules.DebugTools
 {
-    public class ConvertToDOTVisitor : ParserVisitor
+    public class ConvertToDOTVisitor : CoreRuleVisitor
     {
-        private List<VisitorNode> _nodes;
-        private List<VisitorLink> _links;
-        private Stack<Guid> _ids;
-
         public ConvertToDOTVisitor()
         {
             _nodes = new List<VisitorNode>();
             _links = new List<VisitorLink>();
+            _ids = new Stack<Guid>();
         }
 
         public override void Apply(RuleToken rule)

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
@@ -5,15 +6,17 @@ namespace BFParser
 {
     public class SyntaxTreeNode
     {
-        public int Id { get; }
-        public string Token { get; }
+        public Guid Id { get; }
+        public string ParsedText { get; }
+        public string Rest { get; }
         public ReadOnlyCollection<SyntaxTreeNode> Children { get; }
 
-        public SyntaxTreeNode(int id, string token, IList<SyntaxTreeNode> children)
+        public SyntaxTreeNode(string parsedText, string rest, IList<SyntaxTreeNode> children)
         {
-            Id = id;
-            Token = token;
-            Children = new ReadOnlyCollection<SyntaxTreeNode>(children);
+            Id = Guid.NewGuid();
+            ParsedText = parsedText;
+            Rest = rest;
+            Children = (children is null) ? null : new ReadOnlyCollection<SyntaxTreeNode>(children);
         }
     }
 }

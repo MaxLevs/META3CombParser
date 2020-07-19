@@ -14,7 +14,7 @@ namespace BFParser
                 {"loop", R.T("[") + R.C("sourceItem") + R.T("]")},
                 {"sourceItem", R.S(R.C("basicOperations") | R.C("loop"), 0, int.MaxValue)}
             };
-            
+            gramm.InitGrammar();
             
             var node = gramm["sourceItem"].Parse("++++++[->+++>+<<]");
             

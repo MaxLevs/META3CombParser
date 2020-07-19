@@ -33,7 +33,7 @@ namespace BFParser.Rules.Combinators
             else
             {
                 var children = new List<SyntaxTreeNode>{firstResult, secondResult};
-                var parsedText = text.Replace(secondResult.Rest, "");
+                var parsedText = secondResult.Rest != string.Empty ? text.Replace(secondResult.Rest, "") : text;
                 return new SyntaxTreeNode(parsedText, secondResult.Rest, children);
             }
         }

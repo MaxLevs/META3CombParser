@@ -1,12 +1,23 @@
 using System;
 using System.Collections.Generic;
-using System.Data;
+using System.Linq;
 using BFParser.Rules.Combinators;
 
 namespace BFParser.Rules.DebugTools
 {
     public class ConvertToDOTVisitor : CoreRuleVisitor
     {
+        public override object GetResult(string name){
+            string essence = "subgraph cluster_" + name + "{\n" +
+                             "    graph [label=\"" + name + "\", splines=ortho, nodesep=1]\n" +
+                             "    node [shape=box]\n\n";
+                
+            essence = _nodes.Aggregate(essence, (current, node) => current + ("\t" + node + "\n")) + "\n";
+            essence = _links.Aggregate(essence, (current, link) => current + ("\t" + link + "\n"));
+            essence += "}\n";
+            return essence;
+        }
+        
         public ConvertToDOTVisitor()
         {
             _nodes = new List<VisitorNode>();
@@ -64,30 +75,6 @@ namespace BFParser.Rules.DebugTools
         {
             var node = CreateNode($"Call");
             CreateLink(node, rule.GrammarRuleName);
-        }
-
-        private VisitorNode CreateNode (string token)
-        {
-            var node = new VisitorNode(token);
-            _ids.Push(node.Id);
-            _nodes.Add(node);
-            return node;
-        }
-
-        private VisitorLink CreateLink (VisitorNode sourceNode, VisitorNode destinationNode)
-        {
-            var link = new VisitorLink(sourceNode, destinationNode);
-            // _ids.Push(link.Id);
-            _links.Add(link);
-            return link;
-        }
-
-        private VisitorLink CreateLink (VisitorNode sourceNode, string ruleName)
-        {
-            var link = new VisitorLink(sourceNode, ruleName);
-            // _ids.Push(link.Id);
-            _links.Add(link);
-            return link;
         }
     }
 }

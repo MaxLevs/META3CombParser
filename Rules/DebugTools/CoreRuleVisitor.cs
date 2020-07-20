@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using BFParser.Rules.Combinators;
 
 namespace BFParser.Rules.DebugTools
@@ -13,8 +14,7 @@ namespace BFParser.Rules.DebugTools
         public abstract void Apply(RuleOptional rule);
         public abstract void Apply(RuleSerial rule);
         public abstract void Apply(RuleCallGrammarRule rule);
-
-
+        
         public class VisitorNode
         {
             public Guid Id { get; }
@@ -24,6 +24,12 @@ namespace BFParser.Rules.DebugTools
             {
                 Id = Guid.NewGuid();
                 Token = token;
+            }
+
+            public override string ToString()
+            {
+                var sId = "n" + Regex.Replace(Id.ToString(), "-", "");
+                return $"{sId} [label=\"{Token}\"];";
             }
         }
 
@@ -47,9 +53,23 @@ namespace BFParser.Rules.DebugTools
                 SourceNode = sourceNode;
                 RuleName = ruleName;
             }
+
+            public override string ToString()
+            {
+                var sId = "n" + Regex.Replace(SourceNode.Id.ToString(), "-", "");
+
+                if (DestinationNode is null)
+                {
+                    return $"r{RuleName} [shape=box];\n" +
+                           $"{sId} -> r{RuleName};";
+                }
+                
+                var dId = "n" + Regex.Replace(DestinationNode.Id.ToString(), "-", "");
+                return $"{sId} -> {dId};";
+            }
         }
 
-        private VisitorNode CreateNode353995786 (string token)
+        protected VisitorNode CreateNode (string token)
         {
             var node = new VisitorNode(token);
             _ids.Push(node.Id);
@@ -57,7 +77,7 @@ namespace BFParser.Rules.DebugTools
             return node;
         }
 
-        private VisitorLink CreateLink1348923853 (VisitorNode sourceNode, VisitorNode destinationNode)
+        protected VisitorLink CreateLink (VisitorNode sourceNode, VisitorNode destinationNode)
         {
             var link = new VisitorLink(sourceNode, destinationNode);
             // _ids.Push(link.Id);
@@ -65,7 +85,7 @@ namespace BFParser.Rules.DebugTools
             return link;
         }
         
-        private VisitorLink CreateLink149024964 (VisitorNode sourceNode, string ruleName)
+        protected VisitorLink CreateLink (VisitorNode sourceNode, string ruleName)
         {
             var link = new VisitorLink(sourceNode, ruleName);
             // _ids.Push(link.Id);
@@ -76,6 +96,8 @@ namespace BFParser.Rules.DebugTools
         protected List<VisitorNode> _nodes;
         protected List<VisitorLink> _links;
         protected Stack<Guid> _ids;
+
+        public abstract object GetResult(string name);
 
     }
 }

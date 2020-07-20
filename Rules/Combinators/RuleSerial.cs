@@ -43,7 +43,8 @@ namespace BFParser.Rules.Combinators
             var parsedText =  rest != string.Empty ? 
                 text.Replace(rest, "") : 
                 text;
-            return new SyntaxTreeNode(parsedText, rest, this, pResults);
+            return new SyntaxTreeNode(parsedText == String.Empty ? null : parsedText,
+                rest, this, pResults);
         }
 
         public override Grammar Grammar { get; protected set; }

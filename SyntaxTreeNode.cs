@@ -28,11 +28,27 @@ namespace BFParser
             visitor.Apply(this);
         }
 
+        
+        /// <summary>
+        /// Get visualised AST
+        /// </summary>
+        /// <returns>String with graph in dot format</returns>
         public string Dot()
         {
             var visitor = new SyntaxTreeNodeVisualiserVisitor();
             Visit(visitor);
             return visitor.GetResult() as string;
+        }
+
+        /// <summary>
+        /// It helps get clear abstract syntax tree
+        /// </summary>
+        /// <returns>Returns SyntaxTreeNode graph without trash nodes</returns>
+        public SyntaxTreeNode Clear()
+        {
+            var visitor = new SyntaxTreeNodeClearVisitor();
+            Visit(visitor);
+            return visitor.GetResult() as SyntaxTreeNode;
         }
     }
 }

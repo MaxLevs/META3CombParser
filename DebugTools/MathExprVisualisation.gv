@@ -3,7 +3,7 @@ digraph ParserMap {
 		label="value";
 		color=blue;
 		nodesep=1;
-		node [style=filled];
+		node [style=filled, nodesep=0.8];
 	
 		nc3eb00e8ea4d43e8a30dce9c97d55a26 [label="Rule-[[0-9]+]", shape=oval, style=default];
 		n676226a1bde74432b01bbef2626f9ba2 [label="(", shape=oval, style=default];
@@ -25,7 +25,7 @@ digraph ParserMap {
 		label="product";
 		color=blue;
 		nodesep=1;
-		node [style=filled];
+		node [style=filled,nodesep=0.8];
 	
 		nf20d1093365f4959a39f5be1d9752474 [label="CallNode[value]", shape=doubleoctagon, style=filled];
 		n7debcee2d55843c3b766f9ed45754f32 [label="*", shape=oval, style=default];
@@ -49,7 +49,7 @@ digraph ParserMap {
 		label="sum";
 		color=blue;
 		nodesep=1;
-		node [style=filled];
+		node [style=filled,nodesep=0.8];
 		
 		n3a948396fbf94420af9b26b58e3d315a [label="CallNode[product]", shape=doubleoctagon, style=filled];
 		nc00c7725d25245c38860a1ad901b9241 [label="+", shape=oval, style=default];
@@ -73,7 +73,7 @@ digraph ParserMap {
 		label="expr";
 		color=blue;
 		nodesep=1;
-		node [style=filled];
+		node [style=filled,nodesep=0.8];
 		
 		n21070f8dc2c34ebd9e9a9f16657c92df [label="CallNode[sum]", shape=doubleoctagon, style=filled];
 	}

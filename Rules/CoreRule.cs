@@ -29,6 +29,11 @@ namespace BFParser.Rules
         {
             return new RuleToken(token);
         }
+
+        public static CoreRule RE(string rexpr)
+        {
+            return new RuleReg(rexpr);
+        }
         
         public static CoreRule C(string name)
         {
@@ -60,6 +65,11 @@ namespace BFParser.Rules
         public static CoreRule OPT(CoreRule rule)
         {
             return new RuleSerial(rule, 0, 1);
+        }
+
+        public static CoreRule MB(CoreRule rule)
+        {
+            return new RuleOptional(rule);
         }
     }
 }

@@ -22,7 +22,9 @@ namespace BFParser.SyntaxTreeNodeVisitors
 
             public override string ToString()
             {
-                return Id + " [label=\"SyntaxTreeNode["+ Node.Rule +"]{ " + (Node.ParsedText ?? "[[NULL]]") + " }{ "+ (Node.Rest ?? "[[NULL]]") +" }\"];";
+                return Id + " [label=\"SyntaxTreeNode["+ Node.Rule +"]{ " + 
+                       ( Node.ParsedText is null || Node.ParsedText == string.Empty ? "[[NULL]]" : Node.ParsedText ) + " }{ "+ 
+                       ( Node.Rest is null || Node.Rest == string.Empty ? "[[NULL]]" : Node.Rest ) +" }\"];";
             }
         }
 

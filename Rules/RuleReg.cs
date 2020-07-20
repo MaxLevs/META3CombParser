@@ -19,7 +19,7 @@ namespace BFParser.Rules
             var pResult = RExp.Match(text);
             var token = pResult.Groups["ParsedText"].Value;
             var rest = pResult.Groups["Rest"].Value;
-            return new SyntaxTreeNode(token, rest, null);
+            return pResult.Success ? new SyntaxTreeNode(token, rest, null) : null;
         }
 
         public override Grammar Grammar { get; protected set; }

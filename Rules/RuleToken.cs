@@ -22,7 +22,7 @@ namespace BFParser.Rules
                 return null;
             }
             var rest = text.Substring(Token.Length, text.Length - Token.Length);
-            return new SyntaxTreeNode(Token, rest, null);
+            return new SyntaxTreeNode(Token, rest, this, null);
         }
 
         public override Grammar Grammar { get; protected set; }
@@ -34,6 +34,11 @@ namespace BFParser.Rules
         public override void Visit(CoreRuleVisitor visitor)
         {
             visitor.Apply(this);
+        }
+
+        public override string ToString()
+        {
+            return "RuleToken{" + Token + "}";
         }
     }
 }

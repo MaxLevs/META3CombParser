@@ -30,5 +30,11 @@ namespace BFParser.Rules.Combinators
         {
             visitor.Apply(this);
         }
+        
+        
+        public override string ToString()
+        {
+            return "RuleAlternative";
+        }
     }
 }

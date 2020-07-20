@@ -43,7 +43,7 @@ namespace BFParser.Rules.Combinators
             var parsedText =  rest != string.Empty ? 
                 text.Replace(rest, "") : 
                 text;
-            return new SyntaxTreeNode(parsedText, rest, pResults);
+            return new SyntaxTreeNode(parsedText, rest, this, pResults);
         }
 
         public override Grammar Grammar { get; protected set; }
@@ -56,6 +56,11 @@ namespace BFParser.Rules.Combinators
         public override void Visit(CoreRuleVisitor visitor)
         {
             visitor.Apply(this);
+        }
+        
+        public override string ToString()
+        {
+            return "RuleSerial{" + MinTimes + "," + (MaxTimes == int.MaxValue ? "∞" : MaxTimes.ToString()) + "}";
         }
     }
 }

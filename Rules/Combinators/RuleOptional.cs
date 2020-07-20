@@ -16,7 +16,7 @@ namespace BFParser.Rules.Combinators
         public override SyntaxTreeNode Parse(string text)
         {
             var pResult = InternalRule.Parse(text);
-            return pResult ?? new SyntaxTreeNode(DefaultValue, text, null);
+            return pResult ?? new SyntaxTreeNode(DefaultValue, text, this, null);
         }
 
         public override Grammar Grammar { get; protected set; }
@@ -29,6 +29,11 @@ namespace BFParser.Rules.Combinators
         public override void Visit(CoreRuleVisitor visitor)
         {
             visitor.Apply(this);
+        }
+        
+        public override string ToString()
+        {
+            return "RuleOptional";
         }
     }
 }

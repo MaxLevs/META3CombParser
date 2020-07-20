@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using BFParser.Rules;
 using BFParser.SyntaxTreeNodeVisitors;
 
 namespace BFParser
@@ -10,13 +11,15 @@ namespace BFParser
         public Guid Id { get; }
         public string ParsedText { get; }
         public string Rest { get; }
+        public CoreRule Rule { get; }
         public ReadOnlyCollection<SyntaxTreeNode> Children { get; }
 
-        public SyntaxTreeNode(string parsedText, string rest, IList<SyntaxTreeNode> children)
+        public SyntaxTreeNode(string parsedText, string rest, CoreRule ruleWhereWasProducted, IList<SyntaxTreeNode> children)
         {
             Id = Guid.NewGuid();
             ParsedText = parsedText;
             Rest = rest;
+            Rule = ruleWhereWasProducted;
             Children = (children is null) ? null : new ReadOnlyCollection<SyntaxTreeNode>(children);
         }
 

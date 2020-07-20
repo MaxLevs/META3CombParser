@@ -34,7 +34,7 @@ namespace BFParser.Rules.Combinators
             var parsedText = secondResult.Rest != string.Empty ? 
                 text.Replace(secondResult.Rest, "") : 
                 text;
-            return new SyntaxTreeNode(parsedText, secondResult.Rest, children);
+            return new SyntaxTreeNode(parsedText, secondResult.Rest, this, children);
         }
 
         public override Grammar Grammar { get; protected set; }
@@ -48,6 +48,11 @@ namespace BFParser.Rules.Combinators
         public override void Visit(CoreRuleVisitor visitor)
         {
             visitor.Apply(this);
+        }
+        
+        public override string ToString()
+        {
+            return "RuleConcatination";
         }
     }
 }

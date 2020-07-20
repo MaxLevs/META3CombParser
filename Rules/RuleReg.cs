@@ -19,7 +19,7 @@ namespace BFParser.Rules
             var pResult = RExp.Match(text);
             var token = pResult.Groups["ParsedText"].Value;
             var rest = pResult.Groups["Rest"].Value;
-            return pResult.Success ? new SyntaxTreeNode(token, rest, null) : null;
+            return pResult.Success ? new SyntaxTreeNode(token, rest, this, null) : null;
         }
 
         public override Grammar Grammar { get; protected set; }
@@ -31,6 +31,12 @@ namespace BFParser.Rules
         public override void Visit(CoreRuleVisitor visitor)
         {
             visitor.Apply(this);
+        }
+        
+        
+        public override string ToString()
+        {
+            return "RuleReg{" + ExprBase + "}";
         }
     }
 }

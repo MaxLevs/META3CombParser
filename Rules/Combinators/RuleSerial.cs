@@ -38,11 +38,12 @@ namespace BFParser.Rules.Combinators
             {
                 return null;
             }
-            
-            var parsedText = pResults[^1].Rest != string.Empty ? 
-                text.Replace(pResults[^1].Rest, "") : 
+
+            var rest = pResults.Count != 0 ? pResults[^1].Rest : text;
+            var parsedText =  rest != string.Empty ? 
+                text.Replace(rest, "") : 
                 text;
-            return new SyntaxTreeNode(parsedText, pResults[^1].Rest, pResults);
+            return new SyntaxTreeNode(parsedText, rest, pResults);
         }
 
         public override Grammar Grammar { get; protected set; }

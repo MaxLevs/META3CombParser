@@ -26,13 +26,12 @@ namespace BFParser.SyntaxTreeNodeVisitors
             {
                 CreateLink(parentNode, childrenNodes[i], (i+1).ToString());
             }
-            
-            // throw new System.NotImplementedException();
         }
 
         public override object GetResult()
         {
             string result = "digraph {\n";
+            result += "graph [label=\"Abstract Syntax Tree\", splines=ortho, nodesep=1.2];\n";
             result += "node[shape=box,style=filled];\n\n";
             result = _nodes.Aggregate(result, (current, node) => current += node.ToString() + "\n") + "\n\n";
             result = _links.Aggregate(result, (current, link) => current += link.ToString() + "\n");

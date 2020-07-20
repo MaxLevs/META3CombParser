@@ -12,18 +12,12 @@ namespace BFParser
     public class Grammar : IDictionary<string, CoreRule>
     {
         private readonly Dictionary<string, CoreRule> _rules;
+        private readonly string _goalRuleName;
 
-        public Grammar(IDictionary<string, CoreRule> old = null)
+        public Grammar(string goalRuleName, IDictionary<string, CoreRule> old = null)
         {
-            if (old is null)
-            {
-                _rules = new Dictionary<string, CoreRule>();
-            }
-
-            else
-            {
-                _rules = new Dictionary<string, CoreRule>(old);
-            }
+            _goalRuleName = goalRuleName;
+            _rules = old is null ? new Dictionary<string, CoreRule>() : new Dictionary<string, CoreRule>(old);
         }
 
         public IEnumerator<KeyValuePair<string, CoreRule>> GetEnumerator()
@@ -98,6 +92,7 @@ namespace BFParser
 
         public ICollection<string> Keys => _rules.Keys;
         public ICollection<CoreRule> Values => _rules.Values;
+        public CoreRule Goal => this[_goalRuleName];
 
         public void InitGrammar()
         {
@@ -116,7 +111,7 @@ namespace BFParser
         {
             var visitor = new CoreGrammarVisitor<ConvertToDOTVisitor>();
             Visit(visitor);
-            return visitor.GetResult(startRuleName) as string;
+            return visitor.GetResult(startRuleName ?? _goalRuleName) as string;
         }
     }
 }

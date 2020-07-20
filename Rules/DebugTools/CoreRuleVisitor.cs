@@ -9,6 +9,7 @@ namespace BFParser.Rules.DebugTools
 {
     public abstract class CoreRuleVisitor
     {
+        #region Apply Methods
         public abstract void Apply(RuleToken rule);
         public abstract void Apply(RuleReg rule);
         public abstract void Apply(RuleConcatenation rule);
@@ -16,6 +17,7 @@ namespace BFParser.Rules.DebugTools
         public abstract void Apply(RuleOptional rule);
         public abstract void Apply(RuleSerial rule);
         public abstract void Apply(RuleCallGrammarRule rule);
+        #endregion
         
         #region Subclasses
         public class VisitorNode

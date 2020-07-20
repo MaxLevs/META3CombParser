@@ -1,0 +1,62 @@
+digraph ParserGraph {
+    label="Parser Structure Graph"
+
+    subgraph cluster_basicOperations {
+        label = "basicOperations";
+        color=blue;
+        node [style=filled];
+    
+        nc36139dff66a4841b351337097695844 [label="+"];
+        n1974bc436965442a9e61bb76b749b8c9 [label="-"];
+        ne3b29a7b6ca54e92b2cdbf45950f3dc0 [label="AlternativeNode",shape=box];
+        n48052fa0315f4205a3af179324175a84 [label=">"];
+        nbd48a985a170430ea6098b80ae199dd6 [label="AlternativeNode",shape=box];
+        n487a65320c8c45beba795bd1875840ed [label="<"];
+        n991a0a0a8b0246adb0927d83c76584d3 [label="AlternativeNode",shape=box];
+    
+        ne3b29a7b6ca54e92b2cdbf45950f3dc0 -> n1974bc436965442a9e61bb76b749b8c9;
+        ne3b29a7b6ca54e92b2cdbf45950f3dc0 -> nc36139dff66a4841b351337097695844;
+        nbd48a985a170430ea6098b80ae199dd6 -> n48052fa0315f4205a3af179324175a84;
+        nbd48a985a170430ea6098b80ae199dd6 -> ne3b29a7b6ca54e92b2cdbf45950f3dc0;
+        n991a0a0a8b0246adb0927d83c76584d3 -> n487a65320c8c45beba795bd1875840ed;
+        n991a0a0a8b0246adb0927d83c76584d3 -> nbd48a985a170430ea6098b80ae199dd6;
+    }
+
+    subgraph cluster_loop {
+        label = "loop";
+        color=blue;
+        node [style=filled];
+    
+        n146e48f86c0d4b29b105db047c57c701 [label="["];
+        nf0c4a583c1a2422fac62b1bc2fb56c81 [label="CallNode",shape=Msquare];
+        n8b937ebd8677497c9c0ed3eeee297dd1 [label="ConcatenationNode",shape=box];
+        n1c7c03d90d054f8ba2c113777e07792f [label="]"];
+        nedfdf2b7797147f1886b3a0a7754b0fe [label="ConcatenationNode",shape=box];
+    
+        n8b937ebd8677497c9c0ed3eeee297dd1 -> nf0c4a583c1a2422fac62b1bc2fb56c81;
+        n8b937ebd8677497c9c0ed3eeee297dd1 -> n146e48f86c0d4b29b105db047c57c701;
+        nedfdf2b7797147f1886b3a0a7754b0fe -> n1c7c03d90d054f8ba2c113777e07792f;
+        nedfdf2b7797147f1886b3a0a7754b0fe -> n8b937ebd8677497c9c0ed3eeee297dd1;
+    }
+
+    subgraph cluster_sourceItem {
+        label = "sourceItem";
+        color=blue;
+        node [style=filled];
+    
+        n3b3b098430094138b3c5503e5e0fde3b [label="CallNode",shape=Msquare];
+        ne9a93d03f43c4bcf96b0439da7cd58bd [label="CallNode",shape=Msquare];
+        n11ab1eb20b9849a986d41492230db7cf [label="AlternativeNode",shape=box];
+        n7022599be63e46f0b21a5a1b9aef12b0 [label="SerialNode[0,∞]",shape=box];
+        n11ab1eb20b9849a986d41492230db7cf -> ne9a93d03f43c4bcf96b0439da7cd58bd;
+        n11ab1eb20b9849a986d41492230db7cf -> n3b3b098430094138b3c5503e5e0fde3b;
+        n7022599be63e46f0b21a5a1b9aef12b0 -> n11ab1eb20b9849a986d41492230db7cf;
+    }
+    
+    nf0c4a583c1a2422fac62b1bc2fb56c81 -> n7022599be63e46f0b21a5a1b9aef12b0; //link from loop to sourceItem
+    n3b3b098430094138b3c5503e5e0fde3b -> n991a0a0a8b0246adb0927d83c76584d3; //link from sourceItem to basicOberations
+    ne9a93d03f43c4bcf96b0439da7cd58bd -> nedfdf2b7797147f1886b3a0a7754b0fe; //link from sourceItem to loop
+    
+    start [shape=Mdiamond];
+    start -> n7022599be63e46f0b21a5a1b9aef12b0;
+}

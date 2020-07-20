@@ -112,11 +112,11 @@ namespace BFParser
             visitor.Apply(this);
         }
 
-        public string Dot()
+        public string Dot(string startRuleName = null)
         {
             var visitor = new CoreGrammarVisitor<ConvertToDOTVisitor>();
             Visit(visitor);
-            return visitor.GetResult() as string;
+            return visitor.GetResult(startRuleName) as string;
         }
     }
 }

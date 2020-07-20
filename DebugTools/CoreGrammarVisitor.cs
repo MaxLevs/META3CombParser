@@ -9,14 +9,35 @@ namespace BFParser.DebugTools
     {
         public Dictionary<string, TRuleVisitorKind> Visitors { get; }
 
-        public object GetResult()
+        public object GetResult(string startRuleName = null)
         {
             string result = "digraph ParserMap {\n";
             result = Visitors.Aggregate(result, (current, visitor) =>
             {
                 var (key, value) = visitor;
                 return current + ("\t" + value.GetResult(key) as string + "\n");
-            });
+            }) + "\n";
+
+            result += "\t// Call links between rules\n";
+            foreach (var (ruleName, visitor) in Visitors)
+            {
+                foreach (var call in visitor.Calls)
+                {
+                    var destinationNode = Visitors[call.RuleName].Root;
+                    var callLink = new CoreRuleVisitor.VisitorLink(call.SourceNode, destinationNode);
+                    result += "\t" + callLink + "\n";
+                }
+            }
+
+            if (!(startRuleName is null))
+            {
+                result += "\n\n";
+                var startNode = new CoreRuleVisitor.VisitorNode("start", CoreRuleVisitor.VisitorNode.VisitorNodeType.Start);
+                var linkStartToMainRoot = new CoreRuleVisitor.VisitorLink(startNode, Visitors[startRuleName].Root);
+                result += "\t" + startNode + "\n";
+                result += "\t" + linkStartToMainRoot + "\n";
+            }
+            
             result += "}";
 
             return result;

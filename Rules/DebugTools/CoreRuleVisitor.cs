@@ -17,6 +17,7 @@ namespace BFParser.Rules.DebugTools
         public abstract void Apply(RuleSerial rule);
         public abstract void Apply(RuleCallGrammarRule rule);
         
+        #region Subclasses
         public class VisitorNode
         {
             public Guid Id { get; }
@@ -38,18 +39,20 @@ namespace BFParser.Rules.DebugTools
                 {
                     {VisitorNodeType.Termimal, "oval"},
                     {VisitorNodeType.Combinator, "box"},
-                    {VisitorNodeType.Call, "doubleoctagon"}
+                    {VisitorNodeType.Call, "doubleoctagon"},
+                    {VisitorNodeType.Start, "Mdiamond"},
                 };
                 var styles = new Dictionary<VisitorNodeType, string>
                 {
                     {VisitorNodeType.Termimal, "default"},
                     {VisitorNodeType.Combinator, "filled"},
-                    {VisitorNodeType.Call, "filled"}
+                    {VisitorNodeType.Call, "filled"},
+                    {VisitorNodeType.Start, "defult"}
                 };
                 return $"{sId} [label=\"{Token}\", shape={shapes[Type]}, style={styles[Type]}];";
             }
 
-            public enum VisitorNodeType { Termimal, Combinator, Call }
+            public enum VisitorNodeType { Termimal, Combinator, Call, Start }
             
         }
 
@@ -101,7 +104,9 @@ namespace BFParser.Rules.DebugTools
                 RuleName = ruleName;
             }
         }
-
+        #endregion
+        
+        #region HelpMethods
         protected VisitorNode CreateNode (string token, VisitorNode.VisitorNodeType nodeType = VisitorNode.VisitorNodeType.Termimal)
         {
             var node = new VisitorNode(token, nodeType);
@@ -128,14 +133,16 @@ namespace BFParser.Rules.DebugTools
         {
             return _nodes.First(node => node.Id == id);
         }
+        #endregion
         
+        protected Stack<Guid> _ids;
         protected List<VisitorNode> _nodes;
         protected List<VisitorLink> _links;
         protected List<VisitorCall> _calls;
-        protected Stack<Guid> _ids;
 
         public abstract object GetResult(string name);
         
         public ReadOnlyCollection<VisitorCall> Calls => new ReadOnlyCollection<VisitorCall>(_calls);
+        public VisitorNode Root => _nodes[^1];
     }
 }

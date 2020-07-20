@@ -13,6 +13,7 @@ namespace BFParser.Rules.DebugTools
                              "label=\"" + name + "\";\n" +
                              "color=blue;\n" +
                              "nodesep=1;\n" +
+                             "node [style=filled];\n" +
                              "\n";
                 
             essence = _nodes.Aggregate(essence, (current, node) => current + ("\t" + node + "\n")) + "\n";

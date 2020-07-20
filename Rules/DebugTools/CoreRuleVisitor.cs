@@ -40,7 +40,13 @@ namespace BFParser.Rules.DebugTools
                     {VisitorNodeType.Combinator, "box"},
                     {VisitorNodeType.Call, "doubleoctagon"}
                 };
-                return $"{sId} [label=\"{Token}\", shape={shapes[Type]}];";
+                var styles = new Dictionary<VisitorNodeType, string>
+                {
+                    {VisitorNodeType.Termimal, "default"},
+                    {VisitorNodeType.Combinator, "filled"},
+                    {VisitorNodeType.Call, "filled"}
+                };
+                return $"{sId} [label=\"{Token}\", shape={shapes[Type]}, style={styles[Type]}];";
             }
 
             public enum VisitorNodeType { Termimal, Combinator, Call }

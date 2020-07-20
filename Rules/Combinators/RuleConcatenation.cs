@@ -25,7 +25,6 @@ namespace BFParser.Rules.Combinators
             }
 
             var secondResult = SecondRule.Parse(firstResult.Rest);
-            
             if (secondResult is null)
             {
                 return null;

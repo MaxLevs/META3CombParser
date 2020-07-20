@@ -12,6 +12,7 @@ namespace BFParser.DebugTools
         public object GetResult(string startRuleName = null)
         {
             string result = "digraph ParserMap {\n";
+            result += "\tlabel=\"Parser Structure Visualisation\"\n\n";
             result = Visitors.Aggregate(result, (current, visitor) =>
             {
                 var (key, value) = visitor;

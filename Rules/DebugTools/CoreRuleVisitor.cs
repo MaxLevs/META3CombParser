@@ -21,18 +21,30 @@ namespace BFParser.Rules.DebugTools
         {
             public Guid Id { get; }
             public string Token { get; }
+            
+            public VisitorNodeType Type { get; }
 
-            public VisitorNode(string token)
+            public VisitorNode(string token, VisitorNodeType type)
             {
                 Id = Guid.NewGuid();
                 Token = token;
+                this.Type = type;
             }
 
             public override string ToString()
             {
                 var sId = "n" + Regex.Replace(Id.ToString(), "-", "");
-                return $"{sId} [label=\"{Token}\"];";
+                var shapes = new Dictionary<VisitorNodeType, string>
+                {
+                    {VisitorNodeType.Termimal, "oval"},
+                    {VisitorNodeType.Combinator, "box"},
+                    {VisitorNodeType.Call, "Msquare"}
+                };
+                return $"{sId} [label=\"{Token}\", shape={shapes[Type]}];";
             }
+
+            public enum VisitorNodeType { Termimal, Combinator, Call }
+            
         }
 
         public class VisitorLink
@@ -84,9 +96,9 @@ namespace BFParser.Rules.DebugTools
             }
         }
 
-        protected VisitorNode CreateNode (string token)
+        protected VisitorNode CreateNode (string token, VisitorNode.VisitorNodeType nodeType = VisitorNode.VisitorNodeType.Termimal)
         {
-            var node = new VisitorNode(token);
+            var node = new VisitorNode(token, nodeType);
             _ids.Push(node.Id);
             _nodes.Add(node);
             return node;
@@ -95,7 +107,6 @@ namespace BFParser.Rules.DebugTools
         protected VisitorLink CreateLink (VisitorNode sourceNode, VisitorNode destinationNode, string label = null)
         {
             var link = new VisitorLink(sourceNode, destinationNode, label);
-            // _ids.Push(link.Id);
             _links.Add(link);
             return link;
         }
@@ -103,7 +114,6 @@ namespace BFParser.Rules.DebugTools
         protected VisitorCall CreateCall (VisitorNode callNode, string ruleName)
         {
             var call = new VisitorCall(callNode, ruleName);
-            // _ids.Push(link.Id);
             _calls.Add(call);
             return call;
         }

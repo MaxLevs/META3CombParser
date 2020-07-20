@@ -7,10 +7,13 @@ namespace BFParser.Rules.DebugTools
 {
     public class ConvertToDOTVisitor : CoreRuleVisitor
     {
-        public override object GetResult(string name){
+        public override object GetResult(string name)
+        {
             string essence = "subgraph cluster_" + name + "{\n" +
-                             "    //graph [label=\"" + name + "\", splines=ortho, nodesep=1]\n" +
-                             "    //node [shape=box]\n\n";
+                             "label=\"" + name + "\";\n" +
+                             "color=blue;\n" +
+                             "nodesep=1;\n" +
+                             "\n";
                 
             essence = _nodes.Aggregate(essence, (current, node) => current + ("\t" + node + "\n")) + "\n";
             essence = _links.Aggregate(essence, (current, link) => current + ("\t" + link + "\n"));

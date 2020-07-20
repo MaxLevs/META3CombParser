@@ -40,9 +40,9 @@ namespace BFParser.Rules.DebugTools
             rule.FirstRule.Visit(this);
             rule.SecondRule.Visit(this);
 
-            var node = CreateNode("+");
-            CreateLink(node, _nodes[^1]);
+            var node = CreateNode("ConcatenationNode");
             CreateLink(node, _nodes[^2]);
+            CreateLink(node, _nodes[^3]);
         }
 
         public override void Apply(RuleAlternative rule)
@@ -50,30 +50,30 @@ namespace BFParser.Rules.DebugTools
             rule.FirstRule.Visit(this);
             rule.SecondRule.Visit(this);
 
-            var node = CreateNode("|");
-            CreateLink(node, _nodes[^1]);
+            var node = CreateNode("AlternativeNode");
             CreateLink(node, _nodes[^2]);
+            CreateLink(node, _nodes[^3]);
         }
 
         public override void Apply(RuleOptional rule)
         {
             rule.InternalRule.Visit(this);
 
-            var node = CreateNode("Opt");
-            CreateLink(node, _nodes[^1]);
+            var node = CreateNode("OptionalNode");
+            CreateLink(node, _nodes[^2]);
         }
 
         public override void Apply(RuleSerial rule)
         {
             rule.InternalRule.Visit(this);
 
-            var node = CreateNode($"Serial[{rule.MinTimes}, {rule.MaxTimes}]");
-            CreateLink(node, _nodes[^1]);
+            var node = CreateNode($"SerialNode[{rule.MinTimes},{(rule.MaxTimes == int.MaxValue ? "∞" : rule.MaxTimes.ToString())}]");
+            CreateLink(node, _nodes[^2]);
         }
 
         public override void Apply(RuleCallGrammarRule rule)
         {
-            var node = CreateNode($"Call");
+            var node = CreateNode($"CallNode");
             CreateLink(node, rule.GrammarRuleName);
         }
     }

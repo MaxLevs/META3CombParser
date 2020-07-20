@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
 using BFParser.Rules.Combinators;
 
@@ -36,36 +37,49 @@ namespace BFParser.Rules.DebugTools
         public class VisitorLink
         {
             public Guid Id { get; }
+            public string Label { get; }
             public VisitorNode SourceNode { get; }
             public VisitorNode DestinationNode { get; }
-            public string RuleName { get; }
 
-            public VisitorLink(VisitorNode sourceNode, VisitorNode destinationNode)
+            public VisitorLink(VisitorNode sourceNode, VisitorNode destinationNode, string label = null)
             {
                 Id = Guid.NewGuid();
+                Label = label;
                 SourceNode = sourceNode;
                 DestinationNode = destinationNode;
-            }
-            
-            public VisitorLink(VisitorNode sourceNode, string ruleName)
-            {
-                Id = Guid.NewGuid();
-                SourceNode = sourceNode;
-                RuleName = ruleName;
             }
 
             public override string ToString()
             {
                 var sId = "n" + Regex.Replace(SourceNode.Id.ToString(), "-", "");
-
-                if (DestinationNode is null)
-                {
-                    return $"r{RuleName} [shape=box];\n" +
-                           $"{sId} -> r{RuleName};";
-                }
-                
                 var dId = "n" + Regex.Replace(DestinationNode.Id.ToString(), "-", "");
-                return $"{sId} -> {dId};";
+                
+                var result = $"{sId} -> {dId}";
+                if (!(Label is null))
+                {
+                    result += " [";
+
+                    result += Label is null ? "" : $"label=\"{Label}\",";
+                    
+                    result += "]";
+                }
+                result += ";";
+                
+                return result;
+            }
+        }
+        
+        public class VisitorCall
+        {
+            public Guid Id { get; }
+            public VisitorNode SourceNode { get; }
+            public string RuleName { get; }
+
+            public VisitorCall(VisitorNode sourceNode, string ruleName)
+            {
+                Id = Guid.NewGuid();
+                SourceNode = sourceNode;
+                RuleName = ruleName;
             }
         }
 
@@ -85,19 +99,21 @@ namespace BFParser.Rules.DebugTools
             return link;
         }
         
-        protected VisitorLink CreateLink (VisitorNode sourceNode, string ruleName)
+        protected VisitorCall CreateCall (VisitorNode callNode, string ruleName)
         {
-            var link = new VisitorLink(sourceNode, ruleName);
+            var call = new VisitorCall(callNode, ruleName);
             // _ids.Push(link.Id);
-            _links.Add(link);
-            return link;
+            _calls.Add(call);
+            return call;
         }
         
         protected List<VisitorNode> _nodes;
         protected List<VisitorLink> _links;
+        protected List<VisitorCall> _calls;
         protected Stack<Guid> _ids;
 
         public abstract object GetResult(string name);
-
+        
+        public ReadOnlyCollection<VisitorCall> Calls => new ReadOnlyCollection<VisitorCall>(_calls);
     }
 }

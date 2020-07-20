@@ -9,8 +9,8 @@ namespace BFParser.Rules.DebugTools
     {
         public override object GetResult(string name){
             string essence = "subgraph cluster_" + name + "{\n" +
-                             "    graph [label=\"" + name + "\", splines=ortho, nodesep=1]\n" +
-                             "    node [shape=box]\n\n";
+                             "    //graph [label=\"" + name + "\", splines=ortho, nodesep=1]\n" +
+                             "    //node [shape=box]\n\n";
                 
             essence = _nodes.Aggregate(essence, (current, node) => current + ("\t" + node + "\n")) + "\n";
             essence = _links.Aggregate(essence, (current, link) => current + ("\t" + link + "\n"));
@@ -22,6 +22,7 @@ namespace BFParser.Rules.DebugTools
         {
             _nodes = new List<VisitorNode>();
             _links = new List<VisitorLink>();
+            _calls = new List<VisitorCall>();
             _ids = new Stack<Guid>();
         }
 
@@ -74,7 +75,7 @@ namespace BFParser.Rules.DebugTools
         public override void Apply(RuleCallGrammarRule rule)
         {
             var node = CreateNode($"CallNode");
-            CreateLink(node, rule.GrammarRuleName);
+            CreateCall(node, rule.GrammarRuleName);
         }
     }
 }

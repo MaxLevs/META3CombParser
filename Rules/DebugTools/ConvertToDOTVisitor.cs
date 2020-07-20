@@ -46,7 +46,7 @@ namespace BFParser.Rules.DebugTools
             rule.SecondRule.Visit(this);
             var secondVariantDestinationNode = FindNodeById(_ids.Pop());
             var firstVariantDestinationNode = FindNodeById(_ids.Pop());
-            var sourceNode = CreateNode("ConcatenationNode", VisitorNode.VisitorNodeType.Combinator);
+            var sourceNode = CreateNode("ConcatenationNode(+)", VisitorNode.VisitorNodeType.Combinator);
             CreateLink(sourceNode, firstVariantDestinationNode, "1");
             CreateLink(sourceNode, secondVariantDestinationNode, "2");
         }
@@ -57,7 +57,7 @@ namespace BFParser.Rules.DebugTools
             rule.SecondRule.Visit(this);
             var secondVariantDestinationNode = FindNodeById(_ids.Pop());
             var firstVariantDestinationNode = FindNodeById(_ids.Pop());
-            var sourceNode = CreateNode("AlternativeNode", VisitorNode.VisitorNodeType.Combinator);
+            var sourceNode = CreateNode("AlternativeNode(|)", VisitorNode.VisitorNodeType.Combinator);
             CreateLink(sourceNode, firstVariantDestinationNode, "1");
             CreateLink(sourceNode, secondVariantDestinationNode, "2");
         }
@@ -66,7 +66,7 @@ namespace BFParser.Rules.DebugTools
         {
             rule.InternalRule.Visit(this);
             var destinationNode = FindNodeById(_ids.Pop());
-            var sourceNode = CreateNode("OptionalNode", VisitorNode.VisitorNodeType.Combinator);
+            var sourceNode = CreateNode("OptionalNode(?)", VisitorNode.VisitorNodeType.Combinator);
             CreateLink(sourceNode, destinationNode);
         }
 
@@ -82,7 +82,7 @@ namespace BFParser.Rules.DebugTools
 
         public override void Apply(RuleCallGrammarRule rule)
         {
-            var node = CreateNode($"CallNode", VisitorNode.VisitorNodeType.Call);
+            var node = CreateNode($"CallNode[{rule.GrammarRuleName}]", VisitorNode.VisitorNodeType.Call);
             CreateCall(node, rule.GrammarRuleName);
         }
         #endregion

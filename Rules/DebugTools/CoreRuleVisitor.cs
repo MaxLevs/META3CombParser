@@ -38,7 +38,7 @@ namespace BFParser.Rules.DebugTools
                 {
                     {VisitorNodeType.Termimal, "oval"},
                     {VisitorNodeType.Combinator, "box"},
-                    {VisitorNodeType.Call, "Msquare"}
+                    {VisitorNodeType.Call, "doubleoctagon"}
                 };
                 return $"{sId} [label=\"{Token}\", shape={shapes[Type]}];";
             }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text.RegularExpressions;
 using BFParser.Rules.Combinators;
 
@@ -91,9 +92,9 @@ namespace BFParser.Rules.DebugTools
             return node;
         }
 
-        protected VisitorLink CreateLink (VisitorNode sourceNode, VisitorNode destinationNode)
+        protected VisitorLink CreateLink (VisitorNode sourceNode, VisitorNode destinationNode, string label = null)
         {
-            var link = new VisitorLink(sourceNode, destinationNode);
+            var link = new VisitorLink(sourceNode, destinationNode, label);
             // _ids.Push(link.Id);
             _links.Add(link);
             return link;
@@ -105,6 +106,11 @@ namespace BFParser.Rules.DebugTools
             // _ids.Push(link.Id);
             _calls.Add(call);
             return call;
+        }
+
+        protected VisitorNode FindNodeById(Guid id)
+        {
+            return _nodes.First(node => node.Id == id);
         }
         
         protected List<VisitorNode> _nodes;

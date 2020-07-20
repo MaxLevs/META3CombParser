@@ -26,6 +26,7 @@ namespace BFParser.Rules.DebugTools
             _ids = new Stack<Guid>();
         }
 
+        #region Applyes
         public override void Apply(RuleToken rule)
         {
             CreateNode(rule.Token);
@@ -40,36 +41,38 @@ namespace BFParser.Rules.DebugTools
         {
             rule.FirstRule.Visit(this);
             rule.SecondRule.Visit(this);
-
-            var node = CreateNode("ConcatenationNode");
-            CreateLink(node, _nodes[^2]);
-            CreateLink(node, _nodes[^3]);
+            var secondVariantDestinationNode = FindNodeById(_ids.Pop());
+            var firstVariantDestinationNode = FindNodeById(_ids.Pop());
+            var sourceNode = CreateNode("ConcatenationNode");
+            CreateLink(sourceNode, firstVariantDestinationNode, "1");
+            CreateLink(sourceNode, secondVariantDestinationNode, "2");
         }
 
         public override void Apply(RuleAlternative rule)
         {
             rule.FirstRule.Visit(this);
             rule.SecondRule.Visit(this);
-
-            var node = CreateNode("AlternativeNode");
-            CreateLink(node, _nodes[^2]);
-            CreateLink(node, _nodes[^3]);
+            var secondVariantDestinationNode = FindNodeById(_ids.Pop());
+            var firstVariantDestinationNode = FindNodeById(_ids.Pop());
+            var sourceNode = CreateNode("AlternativeNode");
+            CreateLink(sourceNode, firstVariantDestinationNode, "1");
+            CreateLink(sourceNode, secondVariantDestinationNode, "2");
         }
 
         public override void Apply(RuleOptional rule)
         {
             rule.InternalRule.Visit(this);
-
-            var node = CreateNode("OptionalNode");
-            CreateLink(node, _nodes[^2]);
+            var destinationNode = FindNodeById(_ids.Pop());
+            var sourceNode = CreateNode("OptionalNode");
+            CreateLink(sourceNode, destinationNode);
         }
 
         public override void Apply(RuleSerial rule)
         {
             rule.InternalRule.Visit(this);
-
-            var node = CreateNode($"SerialNode[{rule.MinTimes},{(rule.MaxTimes == int.MaxValue ? "∞" : rule.MaxTimes.ToString())}]");
-            CreateLink(node, _nodes[^2]);
+            var destinationNode = FindNodeById(_ids.Pop());
+            var sourceNode = CreateNode($"SerialNode[{rule.MinTimes},{(rule.MaxTimes == int.MaxValue ? "∞" : rule.MaxTimes.ToString())}]");
+            CreateLink(sourceNode, destinationNode);
         }
 
         public override void Apply(RuleCallGrammarRule rule)
@@ -77,5 +80,6 @@ namespace BFParser.Rules.DebugTools
             var node = CreateNode($"CallNode");
             CreateCall(node, rule.GrammarRuleName);
         }
+        #endregion
     }
 }

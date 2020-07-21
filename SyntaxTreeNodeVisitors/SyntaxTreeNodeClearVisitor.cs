@@ -31,21 +31,22 @@ namespace BFParser.SyntaxTreeNodeVisitors
                     nodes.Add(_nodes.Find(node => node.Id == id));
                 }
 
-                if (nodes.Count == 0)
+                switch (nodes.Count)
                 {
-                    // Just skip this node
-                    return;
-                }
-                else if (nodes.Count == 1)
-                {
-                    _ids.Push(nodes[0].Id);
-                    // Elevate child node up and skip this node
-                }
-                else
-                {
-                    var changedNode = new SyntaxTreeNode(syntaxTreeNode.ParsedText, syntaxTreeNode.Rest, null, nodes);
-                    _nodes.Add(changedNode);
-                    _ids.Push(changedNode.Id);   
+                    case 0:
+                        // Just skip this node
+                        return;
+                    case 1:
+                        // Elevate child node up and skip this node
+                        _ids.Push(nodes[0].Id);
+                        break;
+                    default:
+                    {
+                        var changedNode = new SyntaxTreeNode(syntaxTreeNode.ParsedText, syntaxTreeNode.Rest, null, nodes);
+                        _nodes.Add(changedNode);
+                        _ids.Push(changedNode.Id);
+                        break;
+                    }
                 }
             }
         }

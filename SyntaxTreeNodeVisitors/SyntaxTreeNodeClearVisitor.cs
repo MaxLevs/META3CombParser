@@ -10,8 +10,8 @@ namespace BFParser.SyntaxTreeNodeVisitors
         {
             if (syntaxTreeNode.Children is null || syntaxTreeNode.Children.Count == 0)
             {
-                if (syntaxTreeNode.ParsedText is null)
-                    return;
+                // if (syntaxTreeNode.ParsedText is null)
+                //     return;
 
                 _nodes.Add(syntaxTreeNode);
                 _ids.Push(syntaxTreeNode.Id);
@@ -25,11 +25,17 @@ namespace BFParser.SyntaxTreeNodeVisitors
                 }
 
                 var nodes = new List<SyntaxTreeNode>();
-                while (_ids.Count > 0)
+                for(int i = 0; i < syntaxTreeNode.Children.Count; ++i)
                 {
                     var id = _ids.Pop();
-                    nodes.Add(_nodes.Find(node => node.Id == id));
+                    var node = _nodes.Find(element => element.Id == id);
+                    if (node?.ParsedText != null)
+                    {
+                        nodes.Add(node);
+                    }
                 }
+
+                nodes.Reverse();
 
                 switch (nodes.Count)
                 {

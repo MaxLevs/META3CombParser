@@ -34,15 +34,17 @@ namespace BFParser.Rules.Combinators
             var parsedText = secondResult.Rest != string.Empty ? 
                 text.Replace(secondResult.Rest, "") : 
                 text;
-            return new SyntaxTreeNode(parsedText, secondResult.Rest, this, children);
+            return new SyntaxTreeNode(parsedText, secondResult.Rest, GrammarRootRuleName, children);
         }
 
         public override Grammar Grammar { get; protected set; }
-        public override void InitGrammar(Grammar grammar)
+        public override string GrammarRootRuleName { get; protected set; }
+        public override void InitGrammar(Grammar grammar, string grammarRootRuleName)
         {
             Grammar = grammar;
-            FirstRule.InitGrammar(grammar);
-            SecondRule.InitGrammar(grammar);
+            GrammarRootRuleName = grammarRootRuleName;
+            FirstRule.InitGrammar(grammar, grammarRootRuleName);
+            SecondRule.InitGrammar(grammar, grammarRootRuleName);
         }
         
         public override void Visit(CoreRuleVisitor visitor)

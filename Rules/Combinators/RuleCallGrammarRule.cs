@@ -23,9 +23,12 @@ namespace BFParser.Rules.Combinators
         }
 
         public override Grammar Grammar { get; protected set; }
-        public override void InitGrammar(Grammar grammar)
+        public override string GrammarRootRuleName { get; protected set; }
+
+        public override void InitGrammar(Grammar grammar, string grammarRootRuleName)
         {
             Grammar = grammar;
+            GrammarRootRuleName = grammarRootRuleName;
             InternalRule = Grammar[GrammarRuleName];
         }
         

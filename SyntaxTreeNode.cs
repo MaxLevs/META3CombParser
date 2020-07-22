@@ -23,6 +23,7 @@ namespace BFParser
                 if (Children.Count == 0)
                     return 1;
                 return Children
+                    .Where(child => child.RuleName == RuleName)
                     .Select(child => child.RCount)
                     .Aggregate((sum,newCount) => sum + newCount);
             }

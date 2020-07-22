@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using BFParser.DebugTools;
 using BFParser.Rules;
+using BFParser.Rules.Combinators;
 using BFParser.Rules.DebugTools;
 
 namespace BFParser
@@ -112,6 +113,20 @@ namespace BFParser
             var visitor = new CoreGrammarVisitor<ConvertToDOTVisitor>();
             Visit(visitor);
             return visitor.GetResult(startRuleName ?? _goalRuleName) as string;
+        }
+
+        public CoreRule ExpandThis(RuleCallGrammarRule basicRule, List<KeyValuePair<string, List<string>>> operations)
+        {
+            for (int i = 0; i < operations.Count; ++i)
+            {
+                var newRuleName = operations[i].Key;
+                var ops = operations[i].Value.Select(R.T).Aggregate((current, operation) => current | operation);
+                var newRule = basicRule + R.ZI(ops + basicRule);
+                Add(newRuleName, newRule);
+                basicRule = R.C(newRuleName) as RuleCallGrammarRule;
+            }
+
+            return basicRule;
         }
     }
 }

@@ -25,7 +25,7 @@ namespace BFParser.SyntaxTreeNodeVisitors
                 }
 
                 var nodes = new List<SyntaxTreeNode>();
-                for(int i = 0; i < syntaxTreeNode.Children.Count; ++i)
+                for(int i = 0; i < syntaxTreeNode.RCount; ++i)
                 {
                     var id = _ids.Pop();
                     var node = _nodes.Find(element => element.Id == id);

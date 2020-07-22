@@ -25,7 +25,7 @@ namespace BFParser.DebugTools
                 foreach (var call in visitor.Calls)
                 {
                     var destinationNode = Visitors[call.RuleName].Root;
-                    var callLink = new CoreRuleVisitor.VisitorLink(call.SourceNode, destinationNode);
+                    var callLink = new CoreRuleVisitor.VisitorLink(call.SourceNode, destinationNode).SetStyle("dashed");
                     result += "\t" + callLink + "\n";
                 }
             }

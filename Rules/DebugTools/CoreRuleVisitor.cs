@@ -61,14 +61,14 @@ namespace BFParser.Rules.DebugTools
         public class VisitorLink
         {
             public Guid Id { get; }
-            public string Label { get; }
+            public string Label { get; private set; }
             public VisitorNode SourceNode { get; }
             public VisitorNode DestinationNode { get; }
+            public string Style { get; private set; }
 
-            public VisitorLink(VisitorNode sourceNode, VisitorNode destinationNode, string label = null)
+            public VisitorLink(VisitorNode sourceNode, VisitorNode destinationNode)
             {
                 Id = Guid.NewGuid();
-                Label = label;
                 SourceNode = sourceNode;
                 DestinationNode = destinationNode;
             }
@@ -79,17 +79,31 @@ namespace BFParser.Rules.DebugTools
                 var dId = "n" + Regex.Replace(DestinationNode.Id.ToString(), "-", "");
                 
                 var result = $"{sId} -> {dId}";
-                if (!(Label is null))
+                if (!(Label is null && Style is null))
                 {
                     result += " [";
 
                     result += Label is null ? "" : $"label=\"{Label}\",";
+                    result += Style is null ? "" : $"style=\"{Style}\",";
                     
                     result += "]";
                 }
                 result += ";";
                 
                 return result;
+            }
+
+
+            public VisitorLink SetLabel(string label)
+            {
+                Label = label;
+                return this;
+            }
+            
+            public VisitorLink SetStyle(string style)
+            {
+                Style = style;
+                return this;
             }
         }
         
@@ -119,7 +133,9 @@ namespace BFParser.Rules.DebugTools
 
         protected VisitorLink CreateLink (VisitorNode sourceNode, VisitorNode destinationNode, string label = null)
         {
-            var link = new VisitorLink(sourceNode, destinationNode, label);
+            var link = new VisitorLink(sourceNode, destinationNode);
+            if (label != null) 
+                link.SetLabel(label);
             _links.Add(link);
             return link;
         }

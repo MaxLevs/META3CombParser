@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using BFParser.Rules.Combinators;
 
 namespace BFParser.Rules.DebugTools
@@ -38,7 +39,9 @@ namespace BFParser.Rules.DebugTools
 
         public override void Apply(RuleReg rule)
         {
-            CreateNode(rule.ExprBase);
+            var fixStringRegex = new Regex("\"");
+            var newFixedExprBase = fixStringRegex.Replace(rule.ExprBase, @"\""");
+            CreateNode(newFixedExprBase);
         }
 
         public override void Apply(RuleConcatenation rule)

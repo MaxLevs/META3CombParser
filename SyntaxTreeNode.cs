@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using BFParser.Rules;
 using BFParser.SyntaxTreeNodeVisitors;
 
@@ -12,6 +13,21 @@ namespace BFParser
         public string ParsedText { get; }
         public string Rest { get; }
         public string RuleName { get; }
+
+        public int RCount
+        {
+            get
+            {
+                if (ParsedText is null)
+                    return 0;
+                if (Children.Count == 0)
+                    return 1;
+                return Children
+                    .Select(child => child.RCount)
+                    .Aggregate((sum,newCount) => sum + newCount);
+            }
+        }
+
         public ReadOnlyCollection<SyntaxTreeNode> Children { get; }
 
         public SyntaxTreeNode(string parsedText, string rest, string ruleNameWhereWasProducted, IList<SyntaxTreeNode> children)

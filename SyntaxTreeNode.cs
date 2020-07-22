@@ -25,7 +25,12 @@ namespace BFParser
                 return Children
                     .Where(child => child.RuleName == RuleName)
                     .Select(child => child.RCount)
-                    .Aggregate((sum,newCount) => sum + newCount);
+                    .Aggregate((sum,newCount) => sum + newCount) 
+                       
+                       + Children
+                    .Where(child => child.RuleName != RuleName)
+                    .Select(child => child.RCount)
+                    .Aggregate((sum,newCount) => sum + 1);
             }
         }
 

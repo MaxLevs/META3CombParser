@@ -20,17 +20,25 @@ namespace BFParser
             {
                 if (ParsedText is null)
                     return 0;
-                if (Children.Count == 0)
+                if (Children is null || Children.Count == 0)
                     return 1;
-                return Children
-                    .Where(child => child.RuleName == RuleName)
-                    .Select(child => child.RCount)
-                    .Aggregate((sum,newCount) => sum + newCount) 
-                       
-                       + Children
-                    .Where(child => child.RuleName != RuleName)
-                    .Select(child => child.RCount)
-                    .Aggregate((sum,newCount) => sum + 1);
+
+                int result = 0;
+
+                foreach (var child in Children)
+                {
+                    if (child.RuleName == RuleName)
+                    {
+                        result += child.RCount;
+                    }
+
+                    else
+                    {
+                        result += 1;
+                    }
+                }
+
+                return result;
             }
         }
 

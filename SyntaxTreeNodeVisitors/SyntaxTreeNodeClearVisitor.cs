@@ -37,22 +37,20 @@ namespace BFParser.SyntaxTreeNodeVisitors
 
                 nodes.Reverse();
 
-                switch (nodes.Count)
+                if (nodes.Count < 2 || nodes.All(node => node.RuleName == syntaxTreeNode.RuleName))
                 {
-                    case 0:
-                        // Just skip this node
-                        return;
-                    case 1:
-                        // Elevate child node up and skip this node
-                        _ids.Push(nodes[0].Id);
-                        break;
-                    default:
+                    foreach (var node in nodes)
                     {
-                        var changedNode = new SyntaxTreeNode(syntaxTreeNode.ParsedText, syntaxTreeNode.Rest, syntaxTreeNode.RuleName, nodes);
-                        _nodes.Add(changedNode);
-                        _ids.Push(changedNode.Id);
-                        break;
+                        // Elevate children node up and skip this node
+                        // Or just skip if nodes list is empty
+                        _ids.Push(node.Id);
                     }
+                }
+                else
+                {
+                    var changedNode = new SyntaxTreeNode(syntaxTreeNode.ParsedText, syntaxTreeNode.Rest, syntaxTreeNode.RuleName, nodes);
+                    _nodes.Add(changedNode);
+                    _ids.Push(changedNode.Id);
                 }
             }
         }

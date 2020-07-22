@@ -36,7 +36,9 @@ namespace BFParser.Rules
         
         public override string ToString()
         {
-            return "RuleReg{" + ExprBase + "}";
+            var fixStringRegex = new Regex("\"");
+            var newFixedExprBase = fixStringRegex.Replace(ExprBase, "\\\"");
+            return "RuleReg{" + newFixedExprBase + "}";
         }
     }
 }

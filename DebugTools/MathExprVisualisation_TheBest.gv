@@ -1,0 +1,85 @@
+digraph ParserMap {
+	label="Parser Structure Visualisation"
+
+	subgraph cluster_value{
+		label="value";
+		color=blue;
+		nodesep=1;
+		node [style=filled];
+		
+			nb35803c988dd4b73948cdf0c738fe6dd [label="Rule-[[0-9]+]", shape=oval, style=default];
+			n6d9ec25bf93c4d09be8e43e286a71328 [label="(", shape=oval, style=default];
+			n11d6de90aba3467eb856e6bff6cf7683 [label="CallNode[sum]", shape=doubleoctagon, style=filled];
+			nb61572032cdc42f6a24ce77563106ddd [label=")", shape=oval, style=default];
+			nc6fe94cef9ee4f97b3665144e215e4a5 [label="ConcatenationNode(+)", shape=box, style=filled];
+			n09ae7e7cdcf94448af183fd0a0880368 [label="ConcatenationNode(+)", shape=box, style=filled];
+			n4f4ef17effd743aab2fa8dc4a3c03e7e [label="AlternativeNode(|)", shape=box, style=filled];
+		
+			nc6fe94cef9ee4f97b3665144e215e4a5 -> n11d6de90aba3467eb856e6bff6cf7683 [label="1",];
+			nc6fe94cef9ee4f97b3665144e215e4a5 -> nb61572032cdc42f6a24ce77563106ddd [label="2",];
+			n09ae7e7cdcf94448af183fd0a0880368 -> n6d9ec25bf93c4d09be8e43e286a71328 [label="1",];
+			n09ae7e7cdcf94448af183fd0a0880368 -> nc6fe94cef9ee4f97b3665144e215e4a5 [label="2",];
+			n4f4ef17effd743aab2fa8dc4a3c03e7e -> nb35803c988dd4b73948cdf0c738fe6dd [label="1",];
+			n4f4ef17effd743aab2fa8dc4a3c03e7e -> n09ae7e7cdcf94448af183fd0a0880368 [label="2",];
+	}
+
+	subgraph cluster_product{
+		label="product";
+		color=blue;
+		nodesep=1;
+		node [style=filled];
+		
+			n825ceef33f9e443fae38b56e826f2a9a [label="CallNode[value]", shape=doubleoctagon, style=filled];
+			n27d4156186db43a9be64ee2de30bfd92 [label="*", shape=oval, style=default];
+			n3cb4cbffdf6c419d91260c98d0375504 [label="/", shape=oval, style=default];
+			n05ba7807cb0549a69cd09b0faef7db77 [label="AlternativeNode(|)", shape=box, style=filled];
+			nddc5ae51e29e44bf9d24956018538051 [label="CallNode[value]", shape=doubleoctagon, style=filled];
+			n4dc93baae46644678770472250796ebe [label="ConcatenationNode(+)", shape=box, style=filled];
+			n70d27a6db56749bca22834e776073082 [label="SerialNode[0,∞]", shape=box, style=filled];
+			n066b542eed6a45e6a8ec78ec305b5642 [label="ConcatenationNode(+)", shape=box, style=filled];
+		
+			n05ba7807cb0549a69cd09b0faef7db77 -> n27d4156186db43a9be64ee2de30bfd92 [label="1",];
+			n05ba7807cb0549a69cd09b0faef7db77 -> n3cb4cbffdf6c419d91260c98d0375504 [label="2",];
+			n4dc93baae46644678770472250796ebe -> n05ba7807cb0549a69cd09b0faef7db77 [label="1",];
+			n4dc93baae46644678770472250796ebe -> nddc5ae51e29e44bf9d24956018538051 [label="2",];
+			n70d27a6db56749bca22834e776073082 -> n4dc93baae46644678770472250796ebe;
+			n066b542eed6a45e6a8ec78ec305b5642 -> n825ceef33f9e443fae38b56e826f2a9a [label="1",];
+			n066b542eed6a45e6a8ec78ec305b5642 -> n70d27a6db56749bca22834e776073082 [label="2",];
+	}
+
+	subgraph cluster_sum{
+		label="sum";
+		color=blue;
+		nodesep=1;
+		node [style=filled];
+	
+		nad6cad0721b54792ad67c1b82c864465 [label="CallNode[product]", shape=doubleoctagon, style=filled];
+		n6d770a0126854d4ebd5d26a1d29fc4e1 [label="+", shape=oval, style=default];
+		nd357a3e2975d4b85a751250097496f01 [label="-", shape=oval, style=default];
+		nae3b3e3a2a1344c089e69a3f2df1b423 [label="AlternativeNode(|)", shape=box, style=filled];
+		n8307387ca4504dd7b5cb7fa1bd8e8034 [label="CallNode[product]", shape=doubleoctagon, style=filled];
+		nc0ce0bc1dd5b44d794f20c3dc59f0d87 [label="ConcatenationNode(+)", shape=box, style=filled];
+		na23eaeb79351494ea218b07af0cdeb26 [label="SerialNode[0,∞]", shape=box, style=filled];
+		n806c1d546a9a42cb971dc14e7a8bac85 [label="ConcatenationNode(+)", shape=box, style=filled];
+	
+		nae3b3e3a2a1344c089e69a3f2df1b423 -> n6d770a0126854d4ebd5d26a1d29fc4e1 [label="1",];
+		nae3b3e3a2a1344c089e69a3f2df1b423 -> nd357a3e2975d4b85a751250097496f01 [label="2",];
+		nc0ce0bc1dd5b44d794f20c3dc59f0d87 -> nae3b3e3a2a1344c089e69a3f2df1b423 [label="1",];
+		nc0ce0bc1dd5b44d794f20c3dc59f0d87 -> n8307387ca4504dd7b5cb7fa1bd8e8034 [label="2",];
+		na23eaeb79351494ea218b07af0cdeb26 -> nc0ce0bc1dd5b44d794f20c3dc59f0d87;
+		n806c1d546a9a42cb971dc14e7a8bac85 -> nad6cad0721b54792ad67c1b82c864465 [label="1",];
+		n806c1d546a9a42cb971dc14e7a8bac85 -> na23eaeb79351494ea218b07af0cdeb26 [label="2",];
+	}
+
+
+	// Call links between rules
+	n11d6de90aba3467eb856e6bff6cf7683 -> n806c1d546a9a42cb971dc14e7a8bac85 [style="dashed"];
+	n825ceef33f9e443fae38b56e826f2a9a -> n4f4ef17effd743aab2fa8dc4a3c03e7e [style="dashed"];
+	nddc5ae51e29e44bf9d24956018538051 -> n4f4ef17effd743aab2fa8dc4a3c03e7e [style="dashed"];
+	nad6cad0721b54792ad67c1b82c864465 -> n066b542eed6a45e6a8ec78ec305b5642 [style="dashed"];
+	n8307387ca4504dd7b5cb7fa1bd8e8034 -> n066b542eed6a45e6a8ec78ec305b5642 [style="dashed"];
+
+
+	n5f1e227ecdcf4cf89c6eab15ee1c9da5 [label="start", shape=Mdiamond, style=defult];
+	n5f1e227ecdcf4cf89c6eab15ee1c9da5 -> n806c1d546a9a42cb971dc14e7a8bac85;
+}

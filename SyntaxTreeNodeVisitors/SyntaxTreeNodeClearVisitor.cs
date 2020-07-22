@@ -48,7 +48,7 @@ namespace BFParser.SyntaxTreeNodeVisitors
                         break;
                     default:
                     {
-                        var changedNode = new SyntaxTreeNode(syntaxTreeNode.ParsedText, syntaxTreeNode.Rest, null, nodes);
+                        var changedNode = new SyntaxTreeNode(syntaxTreeNode.ParsedText, syntaxTreeNode.Rest, syntaxTreeNode.RuleName, nodes);
                         _nodes.Add(changedNode);
                         _ids.Push(changedNode.Id);
                         break;

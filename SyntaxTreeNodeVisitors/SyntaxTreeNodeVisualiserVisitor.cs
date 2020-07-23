@@ -60,7 +60,7 @@ namespace BFParser.SyntaxTreeNodeVisitors
 
             public override string ToString()
             {
-                var result = Id + " [label=\"SyntaxTreeNode["+ Node.Rule +"]{ " + 
+                var result = Id + " [label=\"SyntaxTreeNode["+ Node.RuleName +"]{ " + 
                        ( Node.ParsedText is null || Node.ParsedText == string.Empty ? "[[NULL]]" : Node.ParsedText ) + " }{ "+ 
                        ( Node.Rest is null || Node.Rest == string.Empty ? "[[NULL]]" : Node.Rest ) +" }\"";
 

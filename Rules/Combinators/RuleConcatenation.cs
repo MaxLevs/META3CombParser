@@ -52,16 +52,18 @@ namespace BFParser.Rules.Combinators
             var parsedText = tailText != string.Empty ? 
                 inputText.Replace(tailText, "") : 
                 inputText;
-            return new SyntaxTreeNode(parsedText, tailText, this, childrenResults);
+            return new SyntaxTreeNode(parsedText, tailText, GrammarRootRuleName, childrenResults);
         }
 
         public override Grammar Grammar { get; protected set; }
-        public override void InitGrammar(Grammar grammar)
+        public override string GrammarRootRuleName { get; protected set; }
+        public override void InitGrammar(Grammar grammar, string grammarRootRuleName)
         {
             Grammar = grammar;
+            GrammarRootRuleName = grammarRootRuleName;
             foreach (var innerRule in InnerRules)
             {
-                innerRule.InitGrammar(grammar);
+                innerRule.InitGrammar(grammar, grammarRootRuleName);
             }
         }
         

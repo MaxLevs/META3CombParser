@@ -97,9 +97,9 @@ namespace BFParser
 
         public void InitGrammar()
         {
-            foreach (var rule in _rules)
+            foreach (var (grammarRootRuleName, mainRule) in _rules)
             {
-                rule.Value.InitGrammar(this);
+                mainRule.InitGrammar(this, grammarRootRuleName);
             }
         }
 

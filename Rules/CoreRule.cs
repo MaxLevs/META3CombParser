@@ -7,8 +7,9 @@ namespace BFParser.Rules
     public abstract class CoreRule
     {
         public abstract SyntaxTreeNode Parse(string text);
+        public abstract string GrammarRootRuleName { get; protected set; }
         public abstract Grammar Grammar { get; protected set; }
-        public abstract void InitGrammar(Grammar grammar);
+        public abstract void InitGrammar(Grammar grammar, string grammarRootRuleName);
 
         public static CoreRule operator +(CoreRule firstRule, CoreRule secondRule)
         {

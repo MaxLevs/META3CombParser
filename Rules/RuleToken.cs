@@ -22,13 +22,15 @@ namespace BFParser.Rules
                 return null;
             }
             var rest = text.Substring(Token.Length, text.Length - Token.Length);
-            return new SyntaxTreeNode(Token, rest, this, null);
+            return new SyntaxTreeNode(Token, rest, GrammarRootRuleName, null);
         }
 
+        public override string GrammarRootRuleName { get; protected set; }
         public override Grammar Grammar { get; protected set; }
-        public override void InitGrammar(Grammar grammar)
+        public override void InitGrammar(Grammar grammar, string grammarRootRuleName)
         {
             Grammar = grammar;
+            GrammarRootRuleName = grammarRootRuleName;
         }
         
         public override void Visit(CoreRuleVisitor visitor)

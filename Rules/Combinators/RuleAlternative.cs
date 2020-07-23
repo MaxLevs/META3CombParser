@@ -46,12 +46,15 @@ namespace BFParser.Rules.Combinators
         }
 
         public override Grammar Grammar { get; protected set; }
-        public override void InitGrammar(Grammar grammar)
+        public override string GrammarRootRuleName { get; protected set; }
+
+        public override void InitGrammar(Grammar grammar, string grammarRootRuleName)
         {
             Grammar = grammar;
+            GrammarRootRuleName = grammarRootRuleName;
             foreach (var innerRule in InnerRules)
             {
-                innerRule.InitGrammar(grammar);
+                innerRule.InitGrammar(grammar, grammarRootRuleName);
             }
         }
         public override void Visit(CoreRuleVisitor visitor)

@@ -11,15 +11,15 @@ namespace BFParser
         public Guid Id { get; }
         public string ParsedText { get; }
         public string Rest { get; }
-        public CoreRule Rule { get; }
+        public string RuleName { get; }
         public ReadOnlyCollection<SyntaxTreeNode> Children { get; }
 
-        public SyntaxTreeNode(string parsedText, string rest, CoreRule ruleWhereWasProducted, IList<SyntaxTreeNode> children)
+        public SyntaxTreeNode(string parsedText, string rest, string ruleNameWhereWasProducted, IList<SyntaxTreeNode> children)
         {
             Id = Guid.NewGuid();
             ParsedText = parsedText;
             Rest = rest;
-            Rule = ruleWhereWasProducted;
+            RuleName = ruleNameWhereWasProducted;
             Children = (children is null) ? null : new ReadOnlyCollection<SyntaxTreeNode>(children);
         }
 

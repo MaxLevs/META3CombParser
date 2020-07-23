@@ -44,14 +44,17 @@ namespace BFParser.Rules.Combinators
                 text.Replace(rest, "") : 
                 text;
             return new SyntaxTreeNode(parsedText == String.Empty ? null : parsedText,
-                rest, this, pResults);
+                rest, GrammarRootRuleName, pResults);
         }
 
         public override Grammar Grammar { get; protected set; }
-        public override void InitGrammar(Grammar grammar)
+        public override string GrammarRootRuleName { get; protected set; }
+
+        public override void InitGrammar(Grammar grammar, string grammarRootRuleName)
         {
             Grammar = grammar;
-            InternalRule.InitGrammar(grammar);
+            GrammarRootRuleName = grammarRootRuleName;
+            InternalRule.InitGrammar(grammar, grammarRootRuleName);
         }
         
         public override void Visit(CoreRuleVisitor visitor)

@@ -12,7 +12,7 @@ namespace BFParser.SyntaxTreeNodeVisitors
         {
             if (syntaxTreeNode.Children is null)
             {
-                CreateNode(syntaxTreeNode);
+                CreateNode(syntaxTreeNode).SetStyle("default");
                 return;
             }
             
@@ -60,9 +60,33 @@ namespace BFParser.SyntaxTreeNodeVisitors
 
             public override string ToString()
             {
-                return Id + " [label=\"SyntaxTreeNode["+ Node.RuleName +"]-[{"+ Node.RCount +"}]-{ " + 
+                var result = Id + " [label=\"SyntaxTreeNode["+ Node.RuleName +"]-[{"+ Node.RCount +"}]-{ " + 
                        ( Node.ParsedText is null || Node.ParsedText == string.Empty ? "[[NULL]]" : Node.ParsedText ) + " }{ "+ 
-                       ( Node.Rest is null || Node.Rest == string.Empty ? "[[NULL]]" : Node.Rest ) +" }\"];";
+                       ( Node.Rest is null || Node.Rest == string.Empty ? "[[NULL]]" : Node.Rest ) +" }\"";
+
+                if (!(Color is null && Style is null))
+                {
+                    result += Color is null ? "" : $", color={Color}";
+                    result += Style is null ? "" : $", style={Style}";
+                }
+                
+                result += "];";
+                return result;
+            }
+
+
+            private string Color { get; set; }
+            public VisitorNode SetColor(string color)
+            {
+                Color = color;
+                return this;
+            }
+
+            private string Style { get; set; }
+            public VisitorNode SetStyle(string style)
+            {
+                Style = style;
+                return this;
             }
         }
 

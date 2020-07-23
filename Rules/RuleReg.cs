@@ -10,7 +10,7 @@ namespace BFParser.Rules
 
         public RuleReg(string rule)
         {
-            ExprBase = $"Rule-[{rule}]";
+            ExprBase = $"RuleName-[{rule}]";
             RExp = new Regex(@$"^(\s+)*(?<ParsedText>{rule})(?<Rest>.+)*"); // Токен в начале строки, остаток в отдельной группе 
         }
 
@@ -19,13 +19,16 @@ namespace BFParser.Rules
             var pResult = RExp.Match(text);
             var token = pResult.Groups["ParsedText"].Value;
             var rest = pResult.Groups["Rest"].Value;
-            return pResult.Success ? new SyntaxTreeNode(token, rest, this, null) : null;
+            return pResult.Success ? new SyntaxTreeNode(token, rest, GrammarRootRuleName, null) : null;
         }
 
         public override Grammar Grammar { get; protected set; }
-        public override void InitGrammar(Grammar grammar)
+        public override string GrammarRootRuleName { get; protected set; }
+
+        public override void InitGrammar(Grammar grammar, string grammarRootRuleName)
         {
             Grammar = grammar;
+            GrammarRootRuleName = grammarRootRuleName;
         }
         
         public override void Visit(CoreRuleVisitor visitor)

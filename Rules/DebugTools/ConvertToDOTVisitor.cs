@@ -46,24 +46,45 @@ namespace BFParser.Rules.DebugTools
 
         public override void Apply(RuleConcatenation rule)
         {
-            rule.FirstRule.Visit(this);
-            rule.SecondRule.Visit(this);
-            var secondVariantDestinationNode = FindNodeById(_ids.Pop());
-            var firstVariantDestinationNode = FindNodeById(_ids.Pop());
+            var childNodes = new List<VisitorNode>();
+
+            foreach (var innerRule in rule.InnerRules)
+            {
+                innerRule.Visit(this);
+                childNodes.Add(FindNodeById(_ids.Pop()));
+            }
+            
             var sourceNode = CreateNode("ConcatenationNode(+)", VisitorNode.VisitorNodeType.Combinator);
-            CreateLink(sourceNode, firstVariantDestinationNode, "1");
-            CreateLink(sourceNode, secondVariantDestinationNode, "2");
+            for (int i = 0; i < childNodes.Count; ++i)
+            {
+                CreateLink(sourceNode, childNodes[i], (i+1).ToString());
+            }
         }
 
         public override void Apply(RuleAlternative rule)
         {
-            rule.FirstRule.Visit(this);
-            rule.SecondRule.Visit(this);
-            var secondVariantDestinationNode = FindNodeById(_ids.Pop());
-            var firstVariantDestinationNode = FindNodeById(_ids.Pop());
+            
+            var childNodes = new List<VisitorNode>();
+
+            foreach (var innerRule in rule.InnerRules)
+            {
+                innerRule.Visit(this);
+                childNodes.Add(FindNodeById(_ids.Pop()));
+            }
+            
             var sourceNode = CreateNode("AlternativeNode(|)", VisitorNode.VisitorNodeType.Combinator);
-            CreateLink(sourceNode, firstVariantDestinationNode, "1");
-            CreateLink(sourceNode, secondVariantDestinationNode, "2");
+            for (int i = 0; i < childNodes.Count; ++i)
+            {
+                CreateLink(sourceNode, childNodes[i], (i+1).ToString());
+            }
+            
+            // rule.FirstRule.Visit(this);
+            // rule.SecondRule.Visit(this);
+            // var secondVariantDestinationNode = FindNodeById(_ids.Pop());
+            // var firstVariantDestinationNode = FindNodeById(_ids.Pop());
+            // var sourceNode = CreateNode("AlternativeNode(|)", VisitorNode.VisitorNodeType.Combinator);
+            // CreateLink(sourceNode, firstVariantDestinationNode, "1");
+            // CreateLink(sourceNode, secondVariantDestinationNode, "2");
         }
 
         public override void Apply(RuleOptional rule)

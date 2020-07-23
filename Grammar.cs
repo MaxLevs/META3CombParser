@@ -97,9 +97,9 @@ namespace BFParser
 
         public void InitGrammar()
         {
-            foreach (var rule in _rules)
+            foreach (var (grammarRootRuleName, mainRule) in _rules)
             {
-                rule.Value.InitGrammar(this);
+                mainRule.InitGrammar(this, grammarRootRuleName);
             }
         }
 
@@ -121,7 +121,7 @@ namespace BFParser
             {
                 var newRuleName = operations[i].Key;
                 var ops = operations[i].Value.Select(R.T).Aggregate((current, operation) => current | operation);
-                var newRule = basicRule + R.ZI(ops + basicRule);
+                var newRule = (basicRule + ops + basicRule) | basicRule;
                 Add(newRuleName, newRule);
                 basicRule = R.C(newRuleName) as RuleCallGrammarRule;
             }

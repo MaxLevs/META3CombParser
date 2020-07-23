@@ -1,7 +1,8 @@
 # META3CombParser
 Just parser lib for my projects
 
-For using this lib you must clone this repo as submodule and create subclass what named as ConcreteGrammar.cs with something like that
+## How to specificate a grammar
+For using this lib you must clone this repo as submodule and create subclass what is named as ConcreteGrammar.cs with something like that
 ```cs
 using System.Collections.Generic;
 using BFParser;
@@ -62,4 +63,25 @@ private static Grammar GetMathExpr()
 
     return gram;
 }
+```
+
+## How to use specificated grammar
+When you have an object of Grammar class, you can start parsing a text. 
+Every rule have `Parse(string text)` method. And the grammar object has Goal property. It's a rule are stecificated by name in grammar constructor.
+Just call `Parse(string text)` method of goal rule. It returns an ATS's root node as an object of SyntaxTreeNode class.
+You can also call `Dot()` method for getting graphviz essence of the parser and the AST. It returns a text you can use for plotting a graph in graphviz tools.
+
+For example
+```cs
+var gram = ConcreteGrammar.GetGrammar();
+string parserStructure = gram.Dot(); // Let's see what does the parser look like.
+
+var goalRule = gram.Goal;
+var astRootNode = goalRule.Parse("<some text here>"); // This is our parsed AST
+
+// In this situation there are some trash nodes. Let's make the AST clear.
+astRootNode = astRootNode.Clear();
+
+// Getting dot visualisation of AST
+string astVisualisation = astRootNode.Dot();
 ```

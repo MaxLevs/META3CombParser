@@ -121,8 +121,14 @@ namespace BFParser
             {
                 var newRuleName = operations[i].Key;
                 var ops = operations[i].Value.Select(R.T).Aggregate((current, operation) => current | operation);
-                var newRule = basicRule + R.ZI(ops + basicRule);
+
+                var newRuleTailName = newRuleName + "_tail";
+                var newRuleTail = R.MB(ops + R.C(newRuleName));
+                Add(newRuleTailName, newRuleTail);
+                
+                var newRule = basicRule + R.C(newRuleTailName);
                 Add(newRuleName, newRule);
+                
                 basicRule = R.C(newRuleName) as RuleCallGrammarRule;
             }
 

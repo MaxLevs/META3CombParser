@@ -77,14 +77,6 @@ namespace BFParser.Rules.DebugTools
             {
                 CreateLink(sourceNode, childNodes[i], (i+1).ToString());
             }
-            
-            // rule.FirstRule.Visit(this);
-            // rule.SecondRule.Visit(this);
-            // var secondVariantDestinationNode = FindNodeById(_ids.Pop());
-            // var firstVariantDestinationNode = FindNodeById(_ids.Pop());
-            // var sourceNode = CreateNode("AlternativeNode(|)", VisitorNode.VisitorNodeType.Combinator);
-            // CreateLink(sourceNode, firstVariantDestinationNode, "1");
-            // CreateLink(sourceNode, secondVariantDestinationNode, "2");
         }
 
         public override void Apply(RuleOptional rule)

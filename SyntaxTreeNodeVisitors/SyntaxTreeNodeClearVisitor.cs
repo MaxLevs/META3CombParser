@@ -10,9 +10,6 @@ namespace BFParser.SyntaxTreeNodeVisitors
         {
             if (syntaxTreeNode.Children is null || syntaxTreeNode.Children.Count == 0)
             {
-                // if (syntaxTreeNode.ParsedText is null)
-                //     return;
-
                 _nodes.Add(syntaxTreeNode);
                 _ids.Push(syntaxTreeNode.Id);
             }

@@ -113,7 +113,7 @@ namespace BFParser.SyntaxTreeNodeVisitors
                 {
                     result += " [";
 
-                    result += Label is null ? "" : $"label=\"{Label}\",";
+                    result += Label is null ? "" : $"xlabel=\"{Label}\",";
                     
                     result += "]";
                 }

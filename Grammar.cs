@@ -4,24 +4,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using BFParser.DebugTools;
-using BFParser.Rules;
-using BFParser.Rules.Combinators;
-using BFParser.Rules.DebugTools;
+using BFParser.Parsers;
+using BFParser.Parsers.Combinators;
+using BFParser.Parsers.DebugTools;
 
 namespace BFParser
 {
-    public class Grammar : IDictionary<string, CoreRule>
+    public class Grammar : IDictionary<string, CoreParser>
     {
-        private readonly Dictionary<string, CoreRule> _rules;
+        private readonly Dictionary<string, CoreParser> _rules;
         private readonly string _goalRuleName;
 
-        public Grammar(string goalRuleName, IDictionary<string, CoreRule> old = null)
+        public Grammar(string goalRuleName, IDictionary<string, CoreParser> old = null)
         {
             _goalRuleName = goalRuleName;
-            _rules = old is null ? new Dictionary<string, CoreRule>() : new Dictionary<string, CoreRule>(old);
+            _rules = old is null ? new Dictionary<string, CoreParser>() : new Dictionary<string, CoreParser>(old);
         }
 
-        public IEnumerator<KeyValuePair<string, CoreRule>> GetEnumerator()
+        public IEnumerator<KeyValuePair<string, CoreParser>> GetEnumerator()
         {
             return _rules.GetEnumerator();
         }
@@ -31,12 +31,12 @@ namespace BFParser
             return GetEnumerator();
         }
 
-        public void Add(KeyValuePair<string, CoreRule> item)
+        public void Add(KeyValuePair<string, CoreParser> item)
         {
             _rules.Add(item.Key, item.Value);
         }
 
-        public void Add(string key, CoreRule value)
+        public void Add(string key, CoreParser value)
         {
             _rules.Add(key, value);
         }
@@ -46,14 +46,14 @@ namespace BFParser
             _rules.Clear();
         }
 
-        public bool Contains(KeyValuePair<string, CoreRule> item)
+        public bool Contains(KeyValuePair<string, CoreParser> item)
         {
             return _rules.Contains(item);
         }
 
-        public void CopyTo(KeyValuePair<string, CoreRule>[] array, int arrayIndex)
+        public void CopyTo(KeyValuePair<string, CoreParser>[] array, int arrayIndex)
         {
-            var result = new KeyValuePair<string,CoreRule>[_rules.Count];
+            var result = new KeyValuePair<string,CoreParser>[_rules.Count];
             var i = 0;
             foreach (var item in _rules)
             {
@@ -62,7 +62,7 @@ namespace BFParser
             }
         }
 
-        public bool Remove(KeyValuePair<string, CoreRule> item)
+        public bool Remove(KeyValuePair<string, CoreParser> item)
         {
             return _rules.Remove(item.Key);
         }
@@ -80,20 +80,20 @@ namespace BFParser
             return _rules.Remove(key);
         }
 
-        public bool TryGetValue(string key, out CoreRule value)
+        public bool TryGetValue(string key, out CoreParser value)
         {
             return _rules.TryGetValue(key, out value);
         }
 
-        public CoreRule this[string key]
+        public CoreParser this[string key]
         {
             get => _rules[key];
             set => _rules[key] = value;
         }
 
         public ICollection<string> Keys => _rules.Keys;
-        public ICollection<CoreRule> Values => _rules.Values;
-        public CoreRule Goal => this[_goalRuleName];
+        public ICollection<CoreParser> Values => _rules.Values;
+        public CoreParser Goal => this[_goalRuleName];
 
         public void InitGrammar()
         {
@@ -115,18 +115,18 @@ namespace BFParser
             return visitor.GetResult(startRuleName ?? _goalRuleName) as string;
         }
 
-        public CoreRule ExpandThis(RuleCallGrammarRule basicRule, List<KeyValuePair<string, List<string>>> operations)
+        public CoreParser ExpandThis(ParserCallGrammarParser basicParser, List<KeyValuePair<string, List<string>>> operations)
         {
             for (int i = 0; i < operations.Count; ++i)
             {
                 var newRuleName = operations[i].Key;
-                var ops = operations[i].Value.Select(R.T).Aggregate((current, operation) => current | operation);
-                var newRule = basicRule + R.ZI(ops + basicRule);
+                var ops = operations[i].Value.Select(P.T).Aggregate((current, operation) => current | operation);
+                var newRule = basicParser + P.ZI(ops + basicParser);
                 Add(newRuleName, newRule);
-                basicRule = R.C(newRuleName) as RuleCallGrammarRule;
+                basicParser = P.C(newRuleName) as ParserCallGrammarParser;
             }
 
-            return basicRule;
+            return basicParser;
         }
     }
 }

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using BFParser.Rules.DebugTools;
+using BFParser.Parsers.DebugTools;
 using GiGraph.Dot.Entities.Attributes.Enums;
 using GiGraph.Dot.Entities.Edges;
 using GiGraph.Dot.Entities.Graphs;
@@ -43,7 +43,7 @@ namespace BFParser.SyntaxTreeNodeVisitors
             graph.Nodes.AddRange(_nodes.Select(vnode =>
             {
                 var dotNode = new DotNode(vnode.Id);
-                dotNode.Attributes.Label = "SyntaxTreeNode["+ vnode.Node.Rule +"]{ " + ( vnode.Node.ParsedText is null || vnode.Node.ParsedText == string.Empty ? "[[NULL]]" : vnode.Node.ParsedText ) + " }{ "+ ( vnode.Node.Rest is null || vnode.Node.Rest == string.Empty ? "[[NULL]]" : vnode.Node.Rest ) +" }";
+                dotNode.Attributes.Label = "SyntaxTreeNode["+ vnode.Node.Parser +"]{ " + ( vnode.Node.ParsedText is null || vnode.Node.ParsedText == string.Empty ? "[[NULL]]" : vnode.Node.ParsedText ) + " }{ "+ ( vnode.Node.Rest is null || vnode.Node.Rest == string.Empty ? "[[NULL]]" : vnode.Node.Rest ) +" }";
                 dotNode.Attributes.Shape = DotNodeShape.Box;
                 dotNode.Attributes.Style.FillStyle = DotNodeFillStyle.Normal;
                 return dotNode;
@@ -84,7 +84,7 @@ namespace BFParser.SyntaxTreeNodeVisitors
 
             public override string ToString()
             {
-                return Id + " [label=\"SyntaxTreeNode["+ Node.Rule +"]{ " + 
+                return Id + " [label=\"SyntaxTreeNode["+ Node.Parser +"]{ " + 
                        ( Node.ParsedText is null || Node.ParsedText == string.Empty ? "[[NULL]]" : Node.ParsedText ) + " }{ "+ 
                        ( Node.Rest is null || Node.Rest == string.Empty ? "[[NULL]]" : Node.Rest ) +" }\"];";
             }

@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization.Json;
-using BFParser.Rules.DebugTools;
+using BFParser.Parsers.DebugTools;
 
 namespace BFParser.DebugTools
 {
-    public class CoreGrammarVisitor<TRuleVisitorKind> where TRuleVisitorKind : CoreRuleVisitor, new()
+    public class CoreGrammarVisitor<TRuleVisitorKind> where TRuleVisitorKind : CoreParserVisitor, new()
     {
         public Dictionary<string, TRuleVisitorKind> Visitors { get; }
 
@@ -25,7 +25,7 @@ namespace BFParser.DebugTools
                 foreach (var call in visitor.Calls)
                 {
                     var destinationNode = Visitors[call.RuleName].Root;
-                    var callLink = new CoreRuleVisitor.VisitorLink(call.SourceNode, destinationNode).SetStyle("dashed");
+                    var callLink = new CoreParserVisitor.VisitorLink(call.SourceNode, destinationNode).SetStyle("dashed");
                     result += "\t" + callLink + "\n";
                 }
             }
@@ -33,8 +33,8 @@ namespace BFParser.DebugTools
             if (!(startRuleName is null))
             {
                 result += "\n\n";
-                var startNode = new CoreRuleVisitor.VisitorNode("start", CoreRuleVisitor.VisitorNode.VisitorNodeType.Start);
-                var linkStartToMainRoot = new CoreRuleVisitor.VisitorLink(startNode, Visitors[startRuleName].Root);
+                var startNode = new CoreParserVisitor.VisitorNode("start", CoreParserVisitor.VisitorNode.VisitorNodeType.Start);
+                var linkStartToMainRoot = new CoreParserVisitor.VisitorLink(startNode, Visitors[startRuleName].Root);
                 result += "\t" + startNode + "\n";
                 result += "\t" + linkStartToMainRoot + "\n";
             }

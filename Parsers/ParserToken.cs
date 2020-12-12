@@ -1,14 +1,14 @@
 using System;
 using System.Text.RegularExpressions;
-using BFParser.Rules.DebugTools;
+using BFParser.Parsers.DebugTools;
 
-namespace BFParser.Rules
+namespace BFParser.Parsers
 {
-    public class RuleToken : CoreRule
+    public class ParserToken : CoreParser
     {
         public string Token { get; }
 
-        public RuleToken(string token)
+        public ParserToken(string token)
         {
             Token = token;
         }
@@ -31,7 +31,7 @@ namespace BFParser.Rules
             Grammar = grammar;
         }
         
-        public override void Visit(CoreRuleVisitor visitor)
+        public override void Visit(CoreParserVisitor visitor)
         {
             visitor.Apply(this);
         }

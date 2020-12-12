@@ -1,14 +1,14 @@
 using System.Text.RegularExpressions;
-using BFParser.Rules.DebugTools;
+using BFParser.Parsers.DebugTools;
 
-namespace BFParser.Rules
+namespace BFParser.Parsers
 {
-    public class RuleReg : CoreRule
+    public class ParserReg : CoreParser
     {
         public string ExprBase { get; }
         public Regex RExp { get; }
 
-        public RuleReg(string rule)
+        public ParserReg(string rule)
         {
             ExprBase = $"Rule-[{rule}]";
             RExp = new Regex(@$"^(\s+)*(?<ParsedText>{rule})(?<Rest>.+)*"); // Токен в начале строки, остаток в отдельной группе 
@@ -28,7 +28,7 @@ namespace BFParser.Rules
             Grammar = grammar;
         }
         
-        public override void Visit(CoreRuleVisitor visitor)
+        public override void Visit(CoreParserVisitor visitor)
         {
             visitor.Apply(this);
         }

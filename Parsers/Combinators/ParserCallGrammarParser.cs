@@ -1,35 +1,35 @@
 using System;
 using System.Data;
-using BFParser.Rules.DebugTools;
+using BFParser.Parsers.DebugTools;
 
-namespace BFParser.Rules.Combinators
+namespace BFParser.Parsers.Combinators
 {
-    public class RuleCallGrammarRule : CoreRule
+    public class ParserCallGrammarParser : CoreParser
     {
-        public RuleCallGrammarRule(string grammarRuleName)
+        public ParserCallGrammarParser(string grammarRuleName)
         {
             GrammarRuleName = grammarRuleName;
         }
 
         public string GrammarRuleName { get; }
-        public CoreRule InternalRule { get; private set; }
+        public CoreParser InternalParser { get; private set; }
         
         public override SyntaxTreeNode Parse(string text)
         {
-            if (InternalRule == null)
+            if (InternalParser == null)
                 throw new NoNullAllowedException($"It must call {nameof(InitGrammar)} before parsing");
 
-            return InternalRule.Parse(text);
+            return InternalParser.Parse(text);
         }
 
         public override Grammar Grammar { get; protected set; }
         public override void InitGrammar(Grammar grammar)
         {
             Grammar = grammar;
-            InternalRule = Grammar[GrammarRuleName];
+            InternalParser = Grammar[GrammarRuleName];
         }
         
-        public override void Visit(CoreRuleVisitor visitor)
+        public override void Visit(CoreParserVisitor visitor)
         {
             visitor.Apply(this);
         }

@@ -1,21 +1,21 @@
 using System;
 using System.Collections.Generic;
-using BFParser.Rules.DebugTools;
+using BFParser.Parsers.DebugTools;
 
-namespace BFParser.Rules.Combinators
+namespace BFParser.Parsers.Combinators
 {
-    public class RuleSerial : CoreRule
+    public class ParserSerial : CoreParser
     {
-        public CoreRule InternalRule { get; }
+        public CoreParser InternalParser { get; }
         public int MinTimes { get; }
         public int MaxTimes { get; }
 
-        public RuleSerial(CoreRule internalRule, int minTimes, int maxTimes)
+        public ParserSerial(CoreParser internalParser, int minTimes, int maxTimes)
         {
             if (minTimes > maxTimes)
                 throw new ArgumentException($"The {nameof(minTimes)} argument must be less than {nameof(maxTimes)}");
             
-            InternalRule = internalRule;
+            InternalParser = internalParser;
             MinTimes = minTimes;
             MaxTimes = maxTimes;
         }
@@ -28,7 +28,7 @@ namespace BFParser.Rules.Combinators
             
             for (; counter < MaxTimes; ++counter)
             {
-                var result = InternalRule.Parse(currentInput);
+                var result = InternalParser.Parse(currentInput);
                 if (result is null) break;
                 currentInput = result.Rest;
                 pResults.Add(result);
@@ -51,10 +51,10 @@ namespace BFParser.Rules.Combinators
         public override void InitGrammar(Grammar grammar)
         {
             Grammar = grammar;
-            InternalRule.InitGrammar(grammar);
+            InternalParser.InitGrammar(grammar);
         }
         
-        public override void Visit(CoreRuleVisitor visitor)
+        public override void Visit(CoreParserVisitor visitor)
         {
             visitor.Apply(this);
         }

@@ -1,21 +1,21 @@
-using BFParser.Rules.DebugTools;
+using BFParser.Parsers.DebugTools;
 
-namespace BFParser.Rules.Combinators
+namespace BFParser.Parsers.Combinators
 {
-    public class RuleOptional : CoreRule
+    public class ParserOptional : CoreParser
     {
-        public CoreRule InternalRule { get; }
+        public CoreParser InternalParser { get; }
         public string DefaultValue { get; }
 
-        public RuleOptional(CoreRule internalRule, string defaultValue = null)
+        public ParserOptional(CoreParser internalParser, string defaultValue = null)
         {
-            InternalRule = internalRule;
+            InternalParser = internalParser;
             DefaultValue = defaultValue;
         }
 
         public override SyntaxTreeNode Parse(string text)
         {
-            var pResult = InternalRule.Parse(text);
+            var pResult = InternalParser.Parse(text);
             return pResult ?? new SyntaxTreeNode(DefaultValue, text, this, null);
         }
 
@@ -23,10 +23,10 @@ namespace BFParser.Rules.Combinators
         public override void InitGrammar(Grammar grammar)
         {
             Grammar = grammar;
-            InternalRule.InitGrammar(grammar);
+            InternalParser.InitGrammar(grammar);
         }
         
-        public override void Visit(CoreRuleVisitor visitor)
+        public override void Visit(CoreParserVisitor visitor)
         {
             visitor.Apply(this);
         }

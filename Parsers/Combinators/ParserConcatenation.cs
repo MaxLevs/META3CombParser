@@ -1,30 +1,30 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using BFParser.Rules.DebugTools;
+using BFParser.Parsers.DebugTools;
 
-namespace BFParser.Rules.Combinators
+namespace BFParser.Parsers.Combinators
 {
-    public class RuleConcatenation : CoreRule
+    public class ParserConcatenation : CoreParser
     {
-        public CoreRule FirstRule { get; }
-        public CoreRule SecondRule { get; }
+        public CoreParser FirstParser { get; }
+        public CoreParser SecondParser { get; }
 
-        public RuleConcatenation(CoreRule firstRule, CoreRule secondRule)
+        public ParserConcatenation(CoreParser firstParser, CoreParser secondParser)
         {
-            FirstRule = firstRule ?? throw new ArgumentNullException(nameof(firstRule));
-            SecondRule = secondRule ?? throw new ArgumentNullException(nameof(secondRule));
+            FirstParser = firstParser ?? throw new ArgumentNullException(nameof(firstParser));
+            SecondParser = secondParser ?? throw new ArgumentNullException(nameof(secondParser));
         }
 
         public override SyntaxTreeNode Parse(string text)
         {
-            var firstResult = FirstRule.Parse(text);
+            var firstResult = FirstParser.Parse(text);
             if (firstResult is null)
             {
                 return null;
             }
 
-            var secondResult = SecondRule.Parse(firstResult.Rest);
+            var secondResult = SecondParser.Parse(firstResult.Rest);
             if (secondResult is null)
             {
                 return null;
@@ -41,11 +41,11 @@ namespace BFParser.Rules.Combinators
         public override void InitGrammar(Grammar grammar)
         {
             Grammar = grammar;
-            FirstRule.InitGrammar(grammar);
-            SecondRule.InitGrammar(grammar);
+            FirstParser.InitGrammar(grammar);
+            SecondParser.InitGrammar(grammar);
         }
         
-        public override void Visit(CoreRuleVisitor visitor)
+        public override void Visit(CoreParserVisitor visitor)
         {
             visitor.Apply(this);
         }

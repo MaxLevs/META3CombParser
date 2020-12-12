@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using BFParser.Rules.Combinators;
+using BFParser.Parsers.Combinators;
 
-namespace BFParser.Rules.DebugTools
+namespace BFParser.Parsers.DebugTools
 {
-    public class ConvertToDOTVisitor : CoreRuleVisitor
+    public class ConvertToDOTVisitor : CoreParserVisitor
     {
         public override object GetResult(string name)
         {
@@ -32,22 +32,22 @@ namespace BFParser.Rules.DebugTools
         }
 
         #region Applyes
-        public override void Apply(RuleToken rule)
+        public override void Apply(ParserToken parser)
         {
-            CreateNode(rule.Token);
+            CreateNode(parser.Token);
         }
 
-        public override void Apply(RuleReg rule)
+        public override void Apply(ParserReg parser)
         {
             var fixStringRegex = new Regex("\"");
-            var newFixedExprBase = fixStringRegex.Replace(rule.ExprBase, @"\""");
+            var newFixedExprBase = fixStringRegex.Replace(parser.ExprBase, @"\""");
             CreateNode(newFixedExprBase);
         }
 
-        public override void Apply(RuleConcatenation rule)
+        public override void Apply(ParserConcatenation parser)
         {
-            rule.FirstRule.Visit(this);
-            rule.SecondRule.Visit(this);
+            parser.FirstParser.Visit(this);
+            parser.SecondParser.Visit(this);
             var secondVariantDestinationNode = FindNodeById(_ids.Pop());
             var firstVariantDestinationNode = FindNodeById(_ids.Pop());
             var sourceNode = CreateNode("ConcatenationNode(+)", VisitorNode.VisitorNodeType.Combinator);
@@ -55,10 +55,10 @@ namespace BFParser.Rules.DebugTools
             CreateLink(sourceNode, secondVariantDestinationNode, "2");
         }
 
-        public override void Apply(RuleAlternative rule)
+        public override void Apply(ParserAlternative parser)
         {
-            rule.FirstRule.Visit(this);
-            rule.SecondRule.Visit(this);
+            parser.FirstParser.Visit(this);
+            parser.SecondParser.Visit(this);
             var secondVariantDestinationNode = FindNodeById(_ids.Pop());
             var firstVariantDestinationNode = FindNodeById(_ids.Pop());
             var sourceNode = CreateNode("AlternativeNode(|)", VisitorNode.VisitorNodeType.Combinator);
@@ -66,28 +66,28 @@ namespace BFParser.Rules.DebugTools
             CreateLink(sourceNode, secondVariantDestinationNode, "2");
         }
 
-        public override void Apply(RuleOptional rule)
+        public override void Apply(ParserOptional parser)
         {
-            rule.InternalRule.Visit(this);
+            parser.InternalParser.Visit(this);
             var destinationNode = FindNodeById(_ids.Pop());
             var sourceNode = CreateNode("OptionalNode(?)", VisitorNode.VisitorNodeType.Combinator);
             CreateLink(sourceNode, destinationNode);
         }
 
-        public override void Apply(RuleSerial rule)
+        public override void Apply(ParserSerial parser)
         {
-            rule.InternalRule.Visit(this);
+            parser.InternalParser.Visit(this);
             var destinationNode = FindNodeById(_ids.Pop());
             var token =
-                $"SerialNode[{rule.MinTimes},{(rule.MaxTimes == int.MaxValue ? "∞" : rule.MaxTimes.ToString())}]";
+                $"SerialNode[{parser.MinTimes},{(parser.MaxTimes == int.MaxValue ? "∞" : parser.MaxTimes.ToString())}]";
             var sourceNode = CreateNode(token, VisitorNode.VisitorNodeType.Combinator);
             CreateLink(sourceNode, destinationNode);
         }
 
-        public override void Apply(RuleCallGrammarRule rule)
+        public override void Apply(ParserCallGrammarParser parser)
         {
-            var node = CreateNode($"CallNode[{rule.GrammarRuleName}]", VisitorNode.VisitorNodeType.Call);
-            CreateCall(node, rule.GrammarRuleName);
+            var node = CreateNode($"CallNode[{parser.GrammarRuleName}]", VisitorNode.VisitorNodeType.Call);
+            CreateCall(node, parser.GrammarRuleName);
         }
         #endregion
     }

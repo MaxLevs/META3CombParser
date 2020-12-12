@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
-using BFParser.Rules.Combinators;
+using BFParser.Parsers.Combinators;
 
-namespace BFParser.Rules.DebugTools
+namespace BFParser.Parsers.DebugTools
 {
-    public abstract class CoreRuleVisitor
+    public abstract class CoreParserVisitor
     {
         #region Apply Methods
-        public abstract void Apply(RuleToken rule);
-        public abstract void Apply(RuleReg rule);
-        public abstract void Apply(RuleConcatenation rule);
-        public abstract void Apply(RuleAlternative rule);
-        public abstract void Apply(RuleOptional rule);
-        public abstract void Apply(RuleSerial rule);
-        public abstract void Apply(RuleCallGrammarRule rule);
+        public abstract void Apply(ParserToken parser);
+        public abstract void Apply(ParserReg parser);
+        public abstract void Apply(ParserConcatenation parser);
+        public abstract void Apply(ParserAlternative parser);
+        public abstract void Apply(ParserOptional parser);
+        public abstract void Apply(ParserSerial parser);
+        public abstract void Apply(ParserCallGrammarParser parser);
         #endregion
         
         #region Subclasses

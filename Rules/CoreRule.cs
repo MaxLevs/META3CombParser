@@ -71,5 +71,10 @@ namespace BFParser.Rules
         {
             return new RuleOptional(rule);
         }
+
+        public static CoreRule SEQ(CoreRule rule, string delimiter)
+        {
+            return MB(rule + T(delimiter) | rule);
+        }
     }
 }

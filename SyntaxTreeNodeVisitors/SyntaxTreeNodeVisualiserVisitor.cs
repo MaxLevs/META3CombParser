@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using BFParser.Rules.DebugTools;
+using GiGraph.Dot.Entities.Attributes.Enums;
+using GiGraph.Dot.Entities.Edges;
+using GiGraph.Dot.Entities.Graphs;
+using GiGraph.Dot.Entities.Nodes;
+using GiGraph.Dot.Entities.Types.Styles;
+using GiGraph.Dot.Extensions;
 
 namespace BFParser.SyntaxTreeNodeVisitors
 {
@@ -31,13 +37,31 @@ namespace BFParser.SyntaxTreeNodeVisitors
 
         public override object GetResult()
         {
+            var graph = new DotGraph(directed:true);
+            graph.Attributes.Label = "Abstract Syntax Tree";
+            graph.Attributes.EdgeShape = DotEdgeShape.Orthogonal;
+            graph.Nodes.AddRange(_nodes.Select(vnode =>
+            {
+                var dotNode = new DotNode(vnode.Id);
+                dotNode.Attributes.Label = "SyntaxTreeNode["+ vnode.Node.Rule +"]{ " + ( vnode.Node.ParsedText is null || vnode.Node.ParsedText == string.Empty ? "[[NULL]]" : vnode.Node.ParsedText ) + " }{ "+ ( vnode.Node.Rest is null || vnode.Node.Rest == string.Empty ? "[[NULL]]" : vnode.Node.Rest ) +" }";
+                dotNode.Attributes.Shape = DotNodeShape.Box;
+                dotNode.Attributes.Style.FillStyle = DotNodeFillStyle.Normal;
+                return dotNode;
+            }));
+            graph.Edges.AddRange(_links.Select(link => {
+                var edge = new DotEdge(link.SourceNode.Id, link.DestinationNode.Id);
+                edge.Attributes.Label = link.Label ?? "";
+                return edge;
+            }));
+            
+            return graph.Build();
+            
             string result = "digraph {\n";
-            result += "graph [label=\"Abstract Syntax Tree\", splines=ortho, nodesep=1.2];\n";
+            result += "graph [label=\"abstract syntax tree\", splines=ortho, nodesep=1.2];\n";
             result += "node[shape=box,style=filled];\n\n";
             result = _nodes.Aggregate(result, (current, node) => current += node.ToString() + "\n") + "\n\n";
             result = _links.Aggregate(result, (current, link) => current += link.ToString() + "\n");
             result += "}\n";
-
             return result;
         }
 
@@ -89,7 +113,7 @@ namespace BFParser.SyntaxTreeNodeVisitors
                 {
                     result += " [";
 
-                    result += Label is null ? "" : $"label=\"{Label}\",";
+                    result += $"label=\"{Label ?? ""}\",";
                     
                     result += "]";
                 }

@@ -11,6 +11,7 @@ namespace BFParser
         public Guid Id { get; }
         public string ParsedText { get; }
         public string Rest { get; }
+        public string RuleName => Parser.RuleName;
         public CoreParser Parser { get; }
         public ReadOnlyCollection<SyntaxTreeNode> Children { get; }
 

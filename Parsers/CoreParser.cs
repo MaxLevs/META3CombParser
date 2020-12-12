@@ -8,7 +8,9 @@ namespace BFParser.Parsers
     {
         public abstract SyntaxTreeNode Parse(string text);
         public abstract Grammar Grammar { get; protected set; }
-        public abstract void InitGrammar(Grammar grammar);
+        public string RuleName { get; protected set; }
+
+        public abstract void InitGrammar(Grammar grammar, string ruleName);
 
         public static CoreParser operator +(CoreParser firstParser, CoreParser secondParser)
         {

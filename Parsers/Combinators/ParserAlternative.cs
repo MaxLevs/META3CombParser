@@ -20,11 +20,12 @@ namespace BFParser.Parsers.Combinators
         }
 
         public override Grammar Grammar { get; protected set; }
-        public override void InitGrammar(Grammar grammar)
+        public override void InitGrammar(Grammar grammar, string ruleName)
         {
             Grammar = grammar;
-            FirstParser.InitGrammar(grammar);
-            SecondParser.InitGrammar(grammar);
+            RuleName = ruleName;
+            FirstParser.InitGrammar(grammar, ruleName);
+            SecondParser.InitGrammar(grammar, ruleName);
         }
         public override void Visit(CoreParserVisitor visitor)
         {

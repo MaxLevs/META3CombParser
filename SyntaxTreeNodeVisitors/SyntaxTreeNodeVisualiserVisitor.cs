@@ -43,7 +43,7 @@ namespace BFParser.SyntaxTreeNodeVisitors
             graph.Nodes.AddRange(_nodes.Select(vnode =>
             {
                 var dotNode = new DotNode(vnode.Id);
-                dotNode.Attributes.Label = "SyntaxTreeNode["+ vnode.Node.Parser +"]{ " + ( vnode.Node.ParsedText is null || vnode.Node.ParsedText == string.Empty ? "[[NULL]]" : vnode.Node.ParsedText ) + " }{ "+ ( vnode.Node.Rest is null || vnode.Node.Rest == string.Empty ? "[[NULL]]" : vnode.Node.Rest ) +" }";
+                dotNode.Attributes.Label = "SyntaxTreeNode["+ vnode.Node.RuleName +"]{ " + ( vnode.Node.ParsedText is null || vnode.Node.ParsedText == string.Empty ? "[[NULL]]" : vnode.Node.ParsedText ) + " }{ "+ ( vnode.Node.Rest is null || vnode.Node.Rest == string.Empty ? "[[NULL]]" : vnode.Node.Rest ) +" }";
                 dotNode.Attributes.Shape = DotNodeShape.Box;
                 dotNode.Attributes.Style.FillStyle = DotNodeFillStyle.Normal;
                 return dotNode;

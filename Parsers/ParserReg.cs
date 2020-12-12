@@ -11,6 +11,7 @@ namespace BFParser.Parsers
         public ParserReg(string rule)
         {
             ExprBase = $"Rule-[{rule}]";
+            // [todo] change this
             RExp = new Regex(@$"^(\s+)*(?<ParsedText>{rule})(?<Rest>.+)*"); // Токен в начале строки, остаток в отдельной группе 
         }
 
@@ -23,9 +24,10 @@ namespace BFParser.Parsers
         }
 
         public override Grammar Grammar { get; protected set; }
-        public override void InitGrammar(Grammar grammar)
+        public override void InitGrammar(Grammar grammar, string ruleName)
         {
             Grammar = grammar;
+            RuleName = ruleName;
         }
         
         public override void Visit(CoreParserVisitor visitor)

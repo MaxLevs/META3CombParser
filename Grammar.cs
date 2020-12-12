@@ -99,7 +99,7 @@ namespace BFParser
         {
             foreach (var rule in _rules)
             {
-                rule.Value.InitGrammar(this);
+                rule.Value.InitGrammar(this, rule.Key);
             }
         }
 

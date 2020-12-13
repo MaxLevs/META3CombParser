@@ -11,8 +11,7 @@ namespace BFParser.Parsers
         public ParserReg(string rule)
         {
             ExprBase = $"Rule-[{rule}]";
-            // [todo] change this
-            RExp = new Regex(@$"^(\s+)*(?<ParsedText>{rule})(?<Rest>.+)*"); // Токен в начале строки, остаток в отдельной группе 
+            RExp = new Regex(@$"^\s*(?<ParsedText>{rule})(?<Rest>(.|\s)*)"); // Токен в начале строки, остаток в отдельной группе 
         }
 
         public override SyntaxTreeNode Parse(string text)

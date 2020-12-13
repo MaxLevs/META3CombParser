@@ -6,7 +6,7 @@ namespace BFParser.SyntaxTreeNodeVisitors
 {
     public class SyntaxTreeNodeClearVisitor : CoreSyntaxTreeNodeVisitor
     {
-        public override void Apply(SyntaxTreeNode syntaxTreeNode)
+        public override void Visit(SyntaxTreeNode syntaxTreeNode)
         {
             if (syntaxTreeNode.Children is null || syntaxTreeNode.Children.Count == 0)
             {
@@ -21,7 +21,7 @@ namespace BFParser.SyntaxTreeNodeVisitors
             {
                 foreach (var childNode in syntaxTreeNode.Children)
                 {
-                    childNode.Visit(this);
+                    childNode.Apply(this);
                 }
 
                 var nodes = new List<SyntaxTreeNode>();

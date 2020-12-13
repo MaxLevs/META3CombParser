@@ -105,7 +105,7 @@ namespace BFParser
 
         public void Visit(CoreGrammarVisitor<ConvertToDOTVisitor> visitor)
         {
-            visitor.Apply(this);
+            visitor.Visit(this);
         }
 
         public string Dot(string startRuleName = null)

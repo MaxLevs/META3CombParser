@@ -49,7 +49,7 @@ namespace BFParser.DebugTools
             Visitors = new Dictionary<string, TRuleVisitorKind>();
         }
 
-        public void Apply(Grammar grammar)
+        public void Visit(Grammar grammar)
         {
             foreach (var (ruleName, ruleObject) in grammar)
             {

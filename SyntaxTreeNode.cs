@@ -24,9 +24,9 @@ namespace BFParser
             Children = (children is null) ? null : new ReadOnlyCollection<SyntaxTreeNode>(children);
         }
 
-        public void Visit(CoreSyntaxTreeNodeVisitor visitor)
+        public void Apply(CoreSyntaxTreeNodeVisitor visitor)
         {
-            visitor.Apply(this);
+            visitor.Visit(this);
         }
 
         
@@ -37,7 +37,7 @@ namespace BFParser
         public string Dot()
         {
             var visitor = new SyntaxTreeNodeVisualiserVisitor();
-            Visit(visitor);
+            Apply(visitor);
             return visitor.GetResult() as string;
         }
 
@@ -48,7 +48,7 @@ namespace BFParser
         public SyntaxTreeNode Clear()
         {
             var visitor = new SyntaxTreeNodeClearVisitor();
-            Visit(visitor);
+            Apply(visitor);
             return visitor.GetResult() as SyntaxTreeNode;
         }
     }

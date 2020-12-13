@@ -7,7 +7,7 @@ namespace BFParser.SyntaxTreeNodeVisitors
 {
     public abstract class CoreSyntaxTreeNodeVisitor
     {
-        public abstract void Apply(SyntaxTreeNode syntaxTreeNode);
+        public abstract void Visit(SyntaxTreeNode syntaxTreeNode);
         public abstract object GetResult();
     }
 }

@@ -14,7 +14,7 @@ namespace BFParser.SyntaxTreeNodeVisitors
 {
     public class SyntaxTreeNodeVisualiserVisitor : CoreSyntaxTreeNodeVisitor
     {
-        public override void Apply(SyntaxTreeNode syntaxTreeNode)
+        public override void Visit(SyntaxTreeNode syntaxTreeNode)
         {
             if (syntaxTreeNode.Children is null)
             {
@@ -25,13 +25,13 @@ namespace BFParser.SyntaxTreeNodeVisitors
             var childrenNodes = new List<VisitorNode>();
             foreach (var child in syntaxTreeNode.Children)
             {
-                child.Visit(this);
+                child.Apply(this);
                 childrenNodes.Add(FindNodeById(_ids.Pop()));
             }
             var parentNode = CreateNode(syntaxTreeNode);
             for (var i = 0; i < childrenNodes.Count; ++i)
             {
-                CreateLink(parentNode, childrenNodes[i], (i+1).ToString());
+                CreateLink(parentNode, childrenNodes[i], (i).ToString());
             }
         }
 

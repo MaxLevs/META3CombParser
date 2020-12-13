@@ -35,7 +35,7 @@ namespace BFParser.Parsers.Combinators
         
         public override string ToString()
         {
-            return "RuleAlternative";
+            return "ParserAlternative";
         }
     }
 }

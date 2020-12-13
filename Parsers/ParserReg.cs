@@ -10,7 +10,7 @@ namespace BFParser.Parsers
 
         public ParserReg(string rule)
         {
-            ExprBase = $"Rule-[{rule}]";
+            ExprBase = $"Parser-[{rule}]";
             RExp = new Regex(@$"^\s*(?<ParsedText>{rule})(?<Rest>(.|\s)*)"); // Токен в начале строки, остаток в отдельной группе 
         }
 
@@ -39,7 +39,7 @@ namespace BFParser.Parsers
         {
             var fixStringRegex = new Regex("\"");
             var newFixedExprBase = fixStringRegex.Replace(ExprBase, @"\""");
-            return "RuleReg{" + newFixedExprBase + "}";
+            return "ParserReg{" + newFixedExprBase + "}";
         }
     }
 }

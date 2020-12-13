@@ -34,7 +34,7 @@ namespace BFParser.Parsers.Combinators
         
         public override string ToString()
         {
-            return "RuleOptional";
+            return "ParserOptional";
         }
     }
 }

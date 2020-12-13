@@ -62,7 +62,7 @@ namespace BFParser.Parsers.Combinators
         
         public override string ToString()
         {
-            return "RuleSerial{" + MinTimes + "," + (MaxTimes == int.MaxValue ? "∞" : MaxTimes.ToString()) + "}";
+            return "ParserSerial{" + MinTimes + "," + (MaxTimes == int.MaxValue ? "∞" : MaxTimes.ToString()) + "}";
         }
     }
 }

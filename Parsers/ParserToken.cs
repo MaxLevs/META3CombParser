@@ -39,7 +39,7 @@ namespace BFParser.Parsers
 
         public override string ToString()
         {
-            return "RuleToken{" + Token + "}";
+            return "ParserToken{" + Token + "}";
         }
     }
 }

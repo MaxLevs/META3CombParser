@@ -55,7 +55,7 @@ namespace BFParser.Parsers.Combinators
         
         public override string ToString()
         {
-            return "RuleConcatination";
+            return "ParserConcatination";
         }
     }
 }

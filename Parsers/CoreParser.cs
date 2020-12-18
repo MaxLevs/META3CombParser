@@ -1,3 +1,4 @@
+using System.Linq;
 using BFParser.Parsers.Combinators;
 using BFParser.Parsers.DebugTools;
 using Microsoft.VisualBasic.CompilerServices;
@@ -30,6 +31,23 @@ namespace BFParser.Parsers
         public static CoreParser T(string token)
         {
             return new ParserToken(token);
+        }
+        
+        public static CoreParser T(string[] tokens)
+        {
+            if (!tokens.Any())
+            {
+                return new ParserToken(null);
+            }
+            
+            CoreParser result = new ParserToken(tokens[0]);
+            
+            for (var k = 1; k < tokens.Length; ++k)
+            {
+                result += new ParserToken(tokens[k]);
+            }
+
+            return result;
         }
 
         public static CoreParser RE(string rexpr)

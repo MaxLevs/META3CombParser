@@ -55,14 +55,6 @@ namespace BFParser.SyntaxTreeNodeVisitors
             }));
             
             return graph.Build();
-            
-            string result = "digraph {\n";
-            result += "graph [label=\"abstract syntax tree\", splines=ortho, nodesep=1.2];\n";
-            result += "node[shape=box,style=filled];\n\n";
-            result = _nodes.Aggregate(result, (current, node) => current += node.ToString() + "\n") + "\n\n";
-            result = _links.Aggregate(result, (current, link) => current += link.ToString() + "\n");
-            result += "}\n";
-            return result;
         }
 
         public SyntaxTreeNodeVisualiserVisitor()
@@ -75,7 +67,7 @@ namespace BFParser.SyntaxTreeNodeVisitors
         public class VisitorNode
         {
             public SyntaxTreeNode Node { get; }
-            public string Id => "n" + Regex.Replace(Node.Id.ToString(), "-", "");
+            public string Id => Node.Id.ToString().Substring(0, 7);
 
             public VisitorNode(SyntaxTreeNode node)
             {

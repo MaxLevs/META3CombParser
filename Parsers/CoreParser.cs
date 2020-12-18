@@ -52,26 +52,41 @@ namespace BFParser.Parsers
             return new ParserSerial(parser, 0, int.MaxValue);
         }
         
+        public static CoreParser ZI(string ruleName)
+        {
+            return P.ZI(P.C(ruleName));
+        }
+        
         public static CoreParser OI(CoreParser parser)
         {
             return new ParserSerial(parser, 1, int.MaxValue);
         }
         
+        public static CoreParser OI(string ruleName)
+        {
+            return P.OI(P.C(ruleName));
+        }
+
+        public static CoreParser MB(CoreParser parser)
+        {
+            return new ParserSerial(parser, 0, 1);
+        }
+        
         /// <summary>
-        /// This function does the same functional as RuleOptional class.
+        /// This function does the same functional as MB.
         /// One tries parse rule 0 or 1 times and returns SyntaxTreeNode anyway.
-        /// But there is no any default value here. (Default is null)
+        /// But there is default value here. (Default is null)
         /// </summary>
         /// <param name="parser">Internal rule for parsing</param>
         /// <returns>SyntaxTreeNode class object</returns>
         public static CoreParser OPT(CoreParser parser)
         {
-            return new ParserSerial(parser, 0, 1);
+            return new ParserOptional(parser);
         }
 
-        public static CoreParser MB(CoreParser parser)
+        public static CoreParser MB(string ruleName)
         {
-            return new ParserOptional(parser);
+            return P.MB(P.C(ruleName));
         }
 
         public static CoreParser SEQ(CoreParser parser, string delimiter)
